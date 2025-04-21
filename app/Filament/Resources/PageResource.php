@@ -6,10 +6,11 @@ use App\Filament\Resources\PageResource\Pages;
 use App\Filament\Resources\PageResource\RelationManagers;
 use App\Models\Page;
 use App\Models\Language;
-use Carbon\Traits\ToStringFormat;
 use Filament\Forms;
 use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
@@ -25,10 +26,13 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\Repeater;
-use App\Models\Section;
-use App\Filament\Resources\PageResource\RelationManagers\SectionsRelationManager;
+use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\View;
+use Filament\Forms\Components\ViewField;
+use App\Filament\Resources\PageResource\Pages\CreatePage;
+use App\Filament\Resources\PageResource\Pages\EditPage;
 
+use App\Filament\Resources\PageResource\RelationManagers\SectionsRelationManager;
 
 class PageResource extends Resource
 {
@@ -38,26 +42,42 @@ class PageResource extends Resource
     protected static ?string $navigationLabel = 'Sayfalar';
     protected static ?string $pluralLabel = 'Sayfalar';
     protected static ?string $modelLabel = 'Sayfa';
-    
 
     public static function form(Form $form): Form
     {
-        $current_model = $form->model;
-        $isPageEdit = $form->model instanceof Page;
-        $data = $isPageEdit ? self::getRelatedPagesData($form->model) : [];
+        $record = $form->getRecord();
+        $data = $record ? self::getRelatedPagesData($record) : [];
 
-        $tabs = self::createLanguageTabs($data, $current_model);
-        $activeTab = $isPageEdit ? $form->model->language_id : 1;
+        if (!$record) {
+            // ⚡️ Create ekranı: eski çoklu-dil formu devam edecek
+            return $form
+                ->schema([
+                    Tabs::make('Diller')
+                        ->tabs(self::createLanguageTabs($data))   // <<< burayı düzelttik
+                        ->columnSpanFull()
+                        ->extraAttributes(['style' => 'border:none;box-shadow:none']),
+                ]);
+        }
 
+        // ⚙️ Edit ekranı: yeni single-form + diğer diller için redirect/placeholder
         return $form
             ->schema([
-                Tabs::make('Diller')
-                    ->tabs($tabs)
-                    ->columnSpanFull()
-                    ->extraAttributes(['style' => 'border-none !ring-0 !shadow-none'])
-                    ->activeTab($activeTab),
-            ]);
+                ViewField::make('language_switcher')
+                    ->view('filament.forms.language-switcher')
+                    ->viewData([
+                        'data' => $data,
+                        'record' => $record,
+                        'routeName' => 'filament.admin.resources.pages.edit',
+                    ])
+                    ->columnSpanFull(),
+
+                Grid::make()
+                    ->columns(2)
+                    ->schema(self::renderPageFields($record->language, $data)),
+            ])
+            ->columns(2);
     }
+
 
 
     public static function table(Table $table): Table
@@ -73,16 +93,15 @@ class PageResource extends Resource
                     ->getStateUsing(fn($record) => !is_null($record->published_at))
                     ->sortable()
                     ->searchable(),
-
             ])
             ->filters([
                 SelectFilter::make('language_id')
-                ->label('Dil')
-                ->options([
-                    1 => 'Türkçe',
-                    2 => 'İngilizce',
-                ])
-                ->default(1) // sayfa ilk açıldığında Türkçe filtreli gelsin
+                    ->label('Dil')
+                    ->options([
+                        1 => 'Türkçe',
+                        2 => 'İngilizce',
+                    ])
+                    ->default(1)
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -96,11 +115,11 @@ class PageResource extends Resource
     }
 
     public static function getRelations(): array
-{
-    return [
-        SectionsRelationManager::class,
-    ];
-}
+    {
+        return [
+            SectionsRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
@@ -110,18 +129,22 @@ class PageResource extends Resource
             'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
     }
+
     protected static function getRelatedPagesData($model)
     {
         $all_related_pages = Page::where('group_id', $model->group_id)->get();
         $data = [];
 
         foreach ($all_related_pages as $related_page) {
-            $languageCode = Language::find($related_page->language_id)->code;
-            $data['pages'][$languageCode] = $related_page;
+            $languageCode = Language::find($related_page->language_id)?->code;
+            if ($languageCode) {
+                $data['pages'][$languageCode] = $related_page;
+            }
         }
 
         return $data;
     }
+
 
     protected static function createLanguageTabs($data)
     {
@@ -141,8 +164,7 @@ class PageResource extends Resource
     {
         return [
             Hidden::make("pages.{$language->code}.language_id")
-                ->afterStateHydrated(function ($component, $state) use ($data, $language) {
-                    // Ensure that the page exists for this language
+                ->afterStateHydrated(function ($component) use ($data, $language) {
                     if (isset($data['pages'][$language->code]->language_id)) {
                         $component->state($data['pages'][$language->code]->language_id);
                     }
@@ -153,69 +175,57 @@ class PageResource extends Resource
                 ->schema([
                     TextInput::make("pages.{$language->code}.name")
                         ->label(__('Sayfa İsmi'))
-                        ->prefixIcon('heroicon-o-document', $is_inline = true)
                         ->minLength(3)
                         ->maxLength(255)
-                        ->afterStateHydrated(function ($component, $state) use ($data, $language) {
+                        ->afterStateHydrated(function ($component) use ($data, $language) {
                             if (isset($data['pages'][$language->code]->name)) {
                                 $component->state($data['pages'][$language->code]->name);
                             }
-                            if (empty($data['pages'][$language->code]->slug)) {
-                                $component->columnSpanFull();
-                            }
                         })
+                        ->columnSpan(fn ($livewire) => $livewire instanceof CreatePage ? 'full' : 1)
                         ->required(),
 
                     TextInput::make("pages.{$language->code}.slug")
                         ->label(__("Slug"))
-                        ->afterStateHydrated(function ($component, $state) use ($data, $language) {
+                        ->afterStateHydrated(function ($component) use ($data, $language) {
                             if (isset($data['pages'][$language->code]->slug)) {
                                 $component->state($data['pages'][$language->code]->slug);
                             }
-                        })
-                        ->visibleOn("edit"),
+                        })->visibleOn("edit"),
 
                     Toggle::make("pages.{$language->code}.is_home")
-                        ->afterStateHydrated(function ($component, $state) use ($data, $language) {
+                        ->label("Anasayfa Yap")
+                        ->afterStateHydrated(function ($component) use ($data, $language) {
                             if (isset($data['pages'][$language->code]->is_home)) {
                                 $component->state($data['pages'][$language->code]->is_home);
                             }
-                        })
-                        ->label("Anasayfa"),
+                        }),
 
                     Toggle::make("pages.{$language->code}.is_published")
                         ->label("Yayınla")
                         ->reactive()
-                        ->afterStateHydrated(function ($component, $state) use ($data, $language) {
+                        ->afterStateHydrated(function ($component) use ($data, $language) {
                             if (isset($data['pages'][$language->code]->published_at)) {
                                 $component->state(!is_null($data['pages'][$language->code]->published_at));
                             }
                         })
                         ->afterStateUpdated(function ($state, $set) use ($language) {
-                            if ($state) {
-                                $set("pages.{$language->code}.published_at", now()->format('Y-m-d H:i:s'));
-                            } else {
-                                $set("pages.{$language->code}.published_at", null);
-                            }
+                            $set("pages.{$language->code}.published_at", $state ? now()->format('Y-m-d H:i:s') : null);
                         })
                         ->dehydrated(false),
 
                     DateTimePicker::make("pages.{$language->code}.published_at")
                         ->label("Yayınlanma Tarihi")
-                        ->afterStateHydrated(function ($component, $state) use ($data, $language) {
-                            if (isset($data['pages'][$language->code]) && $data['pages'][$language->code]->published_at) {
-                                $formattedDate = $data['pages'][$language->code]->published_at->format('Y-m-d H:i:s');
-                                $component->state($formattedDate);
-                            }
-                        })
-                        ->columnSpan(2) // 2 sütunluk grid'de tamamı kaplasın
                         ->reactive()
                         ->format('Y-m-d H:i:s')
                         ->placeholder(__('admin.select_date_time'))
-                        ->extraAttributes([
-                            'onfocus' => 'this.setAttribute("readonly", "readonly"); this.value = "' . now()->format('Y-m-d H:i:s') . '";',
-                        ]),
-                    ]),
+                        ->afterStateHydrated(function ($component) use ($data, $language) {
+                            if (!empty($data['pages'][$language->code]?->published_at)) {
+                                $component->state($data['pages'][$language->code]->published_at->format('Y-m-d H:i:s'));
+                            }
+                        })
+                        ->columnSpan(2),
+                ]),
         ];
     }
 }
