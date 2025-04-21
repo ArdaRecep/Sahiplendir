@@ -23,6 +23,7 @@ class LanguageResource extends Resource
     protected static ?string $model = Language::class;
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
     protected static ?string $navigationGroup = 'Ayarlar';
+    protected static ?string $navigationLabel = 'Diller';
 
     public static function form(Form $form): Form
     {
@@ -39,9 +40,9 @@ class LanguageResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('code'),
-                ImageColumn::make('flag_image'),
+                TextColumn::make('name')->label('İsim'),
+                ImageColumn::make('flag_image')->label('Bayrak'),
+                TextColumn::make('code')->label('Dil Kodu'),
                 Tables\Columns\BooleanColumn::make('is_native')->label('Ana dil mi?'),
             ])
             ->filters([
@@ -49,6 +50,7 @@ class LanguageResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
