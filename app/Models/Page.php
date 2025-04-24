@@ -67,17 +67,14 @@ class Page extends Model
     }
 
     // Page.php
-public function sections()
-{
-    return $this
-        ->belongsToMany(Section::class, 'page_sections')
-        ->withPivot(['order','data','name'])
-        ->withTimestamps()
-        ->orderBy('page_sections.order');  // tablo_adı.sütun_adı
-}
-
-
-
+    public function sections()
+    {
+        return $this
+            ->belongsToMany(Section::class, 'page_sections')
+            ->withPivot(['order', 'data', 'name'])
+            ->withTimestamps()
+            ->orderBy('page_sections.order');  // tablo_adı.sütun_adı
+    }
 
     public function relatedPages()
     {

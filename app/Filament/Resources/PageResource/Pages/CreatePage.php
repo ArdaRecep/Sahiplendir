@@ -52,5 +52,21 @@ class CreatePage extends CreateRecord
         // Filament'in beklediği şekilde bir Model döndürmek için oluşturulan ilk kaydı döndürüyoruz.
         return Page::where('group_id', $data['pages'][$all_languages->first()->code]['group_id'])->first();
     }
+    protected function getRedirectUrl(): string
+    {
+        $nativeLanguage = Language::where('code', 'tr')->first(); // is_native varsa onunla değiştir
+
+        if ($nativeLanguage) {
+            $page = Page::where('group_id', $this->record->group_id)
+                ->where('language_id', $nativeLanguage->id)
+                ->first();
+
+            if ($page) {
+                return route('filament.admin.resources.pages.edit', ['record' => $page->id]);
+            }
+        }
+
+        return parent::getRedirectUrl(); // fallback
+    }
 }
 

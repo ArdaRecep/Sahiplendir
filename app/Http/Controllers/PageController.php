@@ -66,7 +66,7 @@ class PageController extends Controller
      */
     protected function validateLanguage($lang)
     {
-        return Language::where('name', $lang)->first();
+        return Language::where('code', $lang)->first();
     }
 
     /**

@@ -49,6 +49,7 @@ use App\Models\Page;
 use App\Models\Section as SectionModel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
@@ -81,8 +82,8 @@ BLADE;
 
     protected static function renameViews(string $oldSlug, string $newSlug): void
     {
-        $oldAdminPath = resource_path("views/sections/admin/{$oldSlug}.blade.php");
-        $newAdminPath = resource_path("views/sections/admin/{$newSlug}.blade.php");
+        $oldAdminPath = resource_path("views/sections/admin/{$oldSlug}.php");
+        $newAdminPath = resource_path("views/sections/admin/{$newSlug}.php");
 
         $oldFrontPath = resource_path("views/sections/front/{$oldSlug}.blade.php");
         $newFrontPath = resource_path("views/sections/front/{$newSlug}.blade.php");
@@ -98,7 +99,7 @@ BLADE;
 
     protected static function deleteViews(string $slug): void
     {
-        $adminViewPath = resource_path("views/sections/admin/{$slug}.blade.php");
+        $adminViewPath = resource_path("views/sections/admin/{$slug}.php");
         $frontViewPath = resource_path("views/sections/front/{$slug}.blade.php");
 
         if (File::exists($adminViewPath)) {
