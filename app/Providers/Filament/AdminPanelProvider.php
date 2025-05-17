@@ -17,15 +17,36 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Schema;
+use Storage;
+use App\Models\SiteSetting;
+use RyanChandler\FilamentNavigation\FilamentNavigation;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        // Tablo varlık kontrolü ekleyelim
+        if (Schema::hasTable('site_settings')) {
+            $siteSetting = SiteSetting::first() ?? null;
+            $favicon = isset($siteSetting->fav_icon) ? Storage::url($siteSetting->fav_icon) : '';
+            $brand_name = $siteSetting->data['name'] ?? config('app.name');
+            $brand_logo = isset($siteSetting->logo) ? Storage::url($siteSetting->footer_logo) : '';
+        } else {
+            $favicon = '';
+            $brand_name = config('app.name');
+            $brand_logo = '';
+        }
+
         return $panel
             ->default()
             ->id('admin')
+            ->brandName($brand_name ?? '')
+            ->brandLogo($brand_logo ?? '')
+            ->darkModeBrandLogo($brand_logo ?? '')
+            ->brandLogoHeight('3rem')
             ->path('admin')
+            ->favicon($favicon)
             ->login()
             ->colors([
                 'primary' => Color::Amber,
@@ -53,6 +74,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->plugins([FilamentNavigation::make(),]);
     }
 }

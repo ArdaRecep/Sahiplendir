@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'siteuser' => [
+            'driver' => 'session',
+            'provider' => 'site_users',    // Site ziyaretçileri için
+        ],
     ],
 
     /*
@@ -64,6 +68,11 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+        'site_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SiteUser::class,    // Site ziyaretçileri
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',

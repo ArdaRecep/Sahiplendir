@@ -1,0 +1,55 @@
+/*
+Template Name: Woof!
+Main Color scheme
+/*
+ 
+/* Red */
+
+a:hover,.section-heading:before,.navbar-brand i,.serviceBox:hover .service-icon i,figure.team-style3 h6, .team-style2 .name h6, ul.custom li:before,.contact-icon .top-icon, .testimonial .content:before,.owl-theme .owl-nav [class*='owl-']:hover,.spinner .bounce1:after {
+    color:#fa7817!important;
+}
+.nav-item:hover, .nav-pills .nav-link:hover{
+    background:#fa7817!important;
+}
+
+/* Yellow */
+ .btn-primary:hover, .btn-primary:focus, .btn-primary:not(:disabled):not(.disabled):active, .dropdown-menu, .accordion-cards .card-header, .page-item.active .page-link,.progress-bar,.btn-secondary,.service-hover-box .service-hover-caption, .team-style2 .name , .team-style1:hover .social li .team-style1:hover .team-image,.page-link, .nav-pills .nav-link,.navbar{
+    background-color:#fffd70!important ;
+    color:#fa7817!important;
+}
+
+/* Brown */
+.dropdown-item:hover,.accordion-cards .card-header:hover,.accordion-cards .card-header:focus, .bg-primary,.badge-primary, .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span, .alert-primary,.btn-secondary:hover,.list-group-item-action:focus, .list-group-item-action:hover, .counter,.team-style1:hover .social li a:hover,.owl-prev,.owl-next{
+    background-color:#fa7817!important ;
+}
+img{
+    transition: 0.5s;
+}
+img:hover{
+    scale: 1.02; transition: 0.5s;
+}
+blockquote:before,.team-style1:hover figure.team-style3 i,.top-bar .contact-details i, .top-bar .social-list li ul.social-media i,.top-bar , .serviceBox .service-icon i {
+    color:#fa7817 ;
+}
+ .form-control,.alert-primary,.list-group-item-action:focus, .list-group-item-action:hover {
+    border-color:#fa7817 ;
+}
+#bigTriangleColor path {fill:#675444;}
+
+/* Light yellow */
+a:hover,h6{color:#fa7817}
+a{color: black; text-decoration: underline;}
+.nav-tabs .nav-link.active, .bg-light-custom, .team-style1,.accordion-cards .card-body,.testimonial .content,.navbar-toggler:hover{
+    background:#fa7817;
+}
+.tab-content{background:#FBF4DE;}
+.dropdown-item:hover,.page-object1 i,.page-object2 i, .nav-link:hover {
+    color:#ffffff!important;
+}
+ .contact-icon,.border-double {
+    border-color:#ffffff;
+}
+ .testimonial .content:after{
+     border-top-color: #ffffff;
+}
+p,li{color: black;}

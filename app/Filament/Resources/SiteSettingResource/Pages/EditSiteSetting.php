@@ -13,13 +13,6 @@ use Illuminate\Database\Eloquent\Model;
 class EditSiteSetting extends EditRecord
 {
     protected static string $resource = SiteSettingResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\DeleteAction::make(),
-        ];
-    }
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $nativeLanguage = Language::where('is_native', 1)->first();

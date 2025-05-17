@@ -44,16 +44,17 @@ class SiteSettingResource extends Resource
         $data = $isSiteSettingEdit ? self::getRelatedSiteSettingsData($form->model) : [];
 
         $all_languages = Language::select('id', 'code')->orderBy('id', 'asc')->get();
-
+        $native_lang = Language::where('is_native',1)->get('id');
         // Aktif sekmeyi belirlemek için
-        $activeTabIndex = $form->model->language_id;
+        if(isset($form->model->language_id) && isset($native_lang[0]->id))
+            $activeTabIndex = $native_lang[0]->id;
         
 
         return $form
             ->schema([
                 Tabs::make('LanguageTabs')
                     ->tabs(self::createLanguageTabs($data, $all_languages))
-                    ->activeTab($activeTabIndex)
+                    ->activeTab($activeTabIndex ?? 1)
                     ->columnSpanFull(),
             ]);
     }
@@ -72,9 +73,7 @@ class SiteSettingResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 
@@ -138,15 +137,15 @@ class SiteSettingResource extends Resource
 
             Section::make("Logolar")
                 ->schema([
-                    FileUpload::make('logo')
+                    FileUpload::make('footer_logo')
                         ->label('Logo')
                         ->disk('public')
                         ->directory('site_settings')
                         ->maxSize(3072)
                         ->image()
                         ->imageEditor(),
-
-                    FileUpload::make('footer_logo')
+                        
+                    FileUpload::make('logo')
                         ->label('Footer Logo')
                         ->disk('public')
                         ->directory('site_settings')
