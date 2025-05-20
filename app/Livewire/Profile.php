@@ -19,6 +19,7 @@ class Profile extends Component
     public $phone;
     public $profile_photo;
     public $new_photo;
+    public $listings;
 
     public function mount()
     {
@@ -30,6 +31,10 @@ class Profile extends Component
         $this->email         = $user->email;
         $this->phone         = $user->phone;
         $this->profile_photo = $user->profile_photo;
+        $this->listings = $user->listings()
+                              ->where('status', 'active')
+                              ->latest()
+                              ->get();
     }
 
     protected function rules()

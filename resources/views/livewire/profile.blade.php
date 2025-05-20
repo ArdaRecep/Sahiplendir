@@ -120,7 +120,34 @@
                     <div class="row row--grid">
 
 
-                        <h3 class="card__title" style="margin-left: 25px;">Henüz ilan vermediniz</h3>
+                         @if($listings->isEmpty())
+            <h3 class="card__title" style="margin-left: 25px;">Henüz ilan vermediniz</h3>
+        @else
+            @foreach($listings as $listing)
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card">
+                        <div class="card__cover">
+                            {{-- Örneğin listing modelinizde image alanı varsa --}}
+                            @if($listing->image)
+                                <img src="{{ Storage::url($listing->image) }}" alt="{{ $listing->title }}">
+                            @endif
+                        </div>
+                        <div class="card__content">
+                            <h3 class="card__title">{{ $listing->title }}</h3>
+                            <p class="card__subtitle">
+                                {{ Str::limit($listing->description, 80) }}
+                            </p>
+                            <p class="card__date">
+                                {{ $listing->city }} / {{ $listing->district }}
+                            </p>
+                            <a href="#" class="card__link">
+                                İlanı Görüntüle
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @endif
 
                     </div>
                     <!-- end favorites -->
