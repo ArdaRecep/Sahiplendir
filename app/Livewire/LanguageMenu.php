@@ -14,12 +14,11 @@ class LanguageMenu extends Component
     public function mount($page, $type = "desktop")
     {
         // Dilleri slug ile birlikte hazırlama
-        $this->languagesWithSlugs = Language::with(['pages' => function ($query)
-        {
-            $query->where('group_id', $this->page->group_id);
-        }
-        ])->get()->map(function ($language)
-        {
+        $this->languagesWithSlugs = Language::with([
+            'pages' => function ($query) {
+                $query->where('group_id', $this->page->group_id);
+            }
+        ])->get()->map(function ($language) {
             $slug = optional($language->pages->first())->slug; // İlk sayfanın slug değeri
             $published_at = optional($language->pages->first())->published_at;
 
@@ -31,67 +30,62 @@ class LanguageMenu extends Component
                 'published_at' => $published_at
             ];
         });
-        if($this->languagesWithSlugs[0]["slug"]==null)
-        {
-            $this->languagesWithSlugs = Language::with(['posts' => function ($query)
-        {
-            $query->where('group_id', $this->page->group_id);
-        }
-        ])->get()->map(function ($language)
-        {
-            $slug = optional($language->posts->first())->slug; // İlk sayfanın slug değeri
-            $published_at = optional($language->posts->first())->published_at;
+        
+        if ($this->languagesWithSlugs[0]["slug"] == null) {
+            $this->languagesWithSlugs = Language::with([
+                'listings' => function ($query) {
+                    $query->where('language_id', $this->page->language_id);
+                }
+            ])->get()->map(function ($language) {
+                $slug = optional($language->listings->first())->listing_no; // İlk sayfanın slug değeri
+                $published_at = optional($language->listings->first())->status;
 
-            return [
-                'name' => $language->name,
-                'flag_image' => $language->flag_image ?? null,
-                'title' => $language->title,
-                'slug' => $slug,
-                'published_at' => $published_at
-            ];
-        });
-        }
-
-        if($this->languagesWithSlugs[0]["slug"]==null)
-        {
-            $this->languagesWithSlugs = Language::with(['post_categories' => function ($query)
-        {
-            $query->where('group_id', $this->page->group_id);
-        }
-        ])->get()->map(function ($language)
-        {
-            $slug = optional($language->post_categories->first())->slug; // İlk sayfanın slug değeri
-            $published_at = optional($language->post_categories->first())->published_at;
-
-            return [
-                'name' => $language->name,
-                'flag_image' => $language->flag_image ?? null,
-                'title' => $language->title,
-                'slug' => $slug,
-                'published_at' => $published_at
-            ];
-        });
+                return [
+                    'name' => $language->name,
+                    'flag_image' => $language->flag_image ?? null,
+                    'title' => $language->title,
+                    'slug' => $slug,
+                    'published_at' => $published_at
+                ];
+            });
         }
 
-        if($this->languagesWithSlugs[0]["slug"]==null)
-        {
-            $this->languagesWithSlugs = Language::with(['Service' => function ($query)
-        {
-            $query->where('group_id', $this->page->group_id);
-        }
-        ])->get()->map(function ($language)
-        {
-            $slug = optional($language->Service->first())->slug; // İlk sayfanın slug değeri
-            $published_at = optional($language->Service->first())->published_at;
+        if ($this->languagesWithSlugs[0]["slug"] == null) {
+            $this->languagesWithSlugs = Language::with([
+                'post_categories' => function ($query) {
+                    $query->where('group_id', $this->page->group_id);
+                }
+            ])->get()->map(function ($language) {
+                $slug = optional($language->post_categories->first())->slug; // İlk sayfanın slug değeri
+                $published_at = optional($language->post_categories->first())->published_at;
 
-            return [
-                'name' => $language->name,
-                'flag_image' => $language->flag_image ?? null,
-                'title' => $language->title,
-                'slug' => $slug,
-                'published_at' => $published_at
-            ];
-        });
+                return [
+                    'name' => $language->name,
+                    'flag_image' => $language->flag_image ?? null,
+                    'title' => $language->title,
+                    'slug' => $slug,
+                    'published_at' => $published_at
+                ];
+            });
+        }
+
+        if ($this->languagesWithSlugs[0]["slug"] == null) {
+            $this->languagesWithSlugs = Language::with([
+                'Service' => function ($query) {
+                    $query->where('group_id', $this->page->group_id);
+                }
+            ])->get()->map(function ($language) {
+                $slug = optional($language->Service->first())->slug; // İlk sayfanın slug değeri
+                $published_at = optional($language->Service->first())->published_at;
+
+                return [
+                    'name' => $language->name,
+                    'flag_image' => $language->flag_image ?? null,
+                    'title' => $language->title,
+                    'slug' => $slug,
+                    'published_at' => $published_at
+                ];
+            });
         }
 
     }

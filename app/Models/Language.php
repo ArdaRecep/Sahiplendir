@@ -30,4 +30,8 @@ class Language extends Model
     {
         return $this->hasMany(Page::class);
     }
+    public function listings(): HasMany
+    {
+        return $this->hasMany(Listing::class);
+    }
 }

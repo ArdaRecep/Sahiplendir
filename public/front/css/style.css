@@ -863,7 +863,7 @@ Last change:27 June 2023
 /*=========================== Footer ============================ */
  footer{
      color:#fff;
-     padding: 80px 0px;
+     padding: 0;
      border-top: 5px double #ffffff;
 }
  footer .navbar-brand span{

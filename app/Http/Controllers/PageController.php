@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Language;
 use App\Models\Page;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -14,8 +15,13 @@ class PageController extends Controller
             'slug_field' => 'slug',
             'language_field' => 'language_id'
         ],
+        'listing' => [
+            'model' => Listing::class,
+            'slug_field' => 'listing_no',
+            'language_field' => 'language_id'
+        ],
     ];
-
+    
     /**
      * Sayfa gösterme metodu
      */
@@ -28,14 +34,15 @@ class PageController extends Controller
 
         // Dil parametresi varsa, geçerli dil kontrol edilir
         $language = $this->validateLanguage($lang);
+        
         if ($slug && $language) {
-            // Dil ve slug varsa, sayfa sorgulanır
             $page = $this->getModelPage($slug, $language->id);
             if (!$page) {
                 abort(404, "The requested page does not exist.");
             }
             return $this->renderPage($page);
         }
+        
 
         // Dil var fakat slug yoksa, ilgili dilde ana sayfa gösterilir
         if ($language && !$slug) {
@@ -74,12 +81,16 @@ class PageController extends Controller
      */
     protected function getModelPage($slug, $languageId)
     {
-        $modelInfo = $this->models['page'];
-        $page = $modelInfo['model']::where($modelInfo['slug_field'], $slug)
-            ->where($modelInfo['language_field'], $languageId)
-            ->first();
-
-        return $page;
+        foreach ($this->models as $type => $info) {
+            $model = $info['model'];
+            $query = $model::where($info['slug_field'], $slug)
+                           ->where($info['language_field'], $languageId);
+            $page = $query->first();
+            if ($page) {
+                return $page;
+            }
+        }
+        return abort(404, "The requested page does not exist.");
     }
 
     /**

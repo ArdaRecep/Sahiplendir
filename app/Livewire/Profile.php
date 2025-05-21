@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Language;
 
 class Profile extends Component
 {
@@ -20,8 +21,9 @@ class Profile extends Component
     public $profile_photo;
     public $new_photo;
     public $listings;
+    public $language_id;
 
-    public function mount()
+    public function mount($language_id)
     {
         $user = Auth::guard('siteuser')->user();
 
@@ -71,11 +73,12 @@ class Profile extends Component
         ]);
 
         session()->flash('success','Profiliniz güncellendi.');
-        $this->mount(); // yeni photo path vs. güncellensin
+        $this->mount($this->language_id); // yeni photo path vs. güncellensin
     }
 
     public function render()
     {
-        return view('livewire.profile');
+        $language = Language::findOrFail($this->language_id);
+        return view('livewire.profile',['language' => $language]);
     }
 }

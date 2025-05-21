@@ -1,1 +1,1 @@
-@livewire('profile')
+@livewire('profile',['language_id' => $language_id])
