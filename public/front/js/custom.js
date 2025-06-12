@@ -9,16 +9,34 @@ Version: 2.0
 
 		$(document).ready(function() {	
 
+var path = window.location.pathname;
 
-			//active link
+    // Eğer / veya /tr sayfasındaysak, doğrudan Anasayfa linkini aktif yap
+    if (path === "/" || path === "/tr") {
+        var anasayfaLink = $('.navbar ul li a[href="/tr/anasayfa"]');
+        anasayfaLink.addClass('active');
+        anasayfaLink.closest('li.dropdown').addClass('active');
+    }
+	else if(path === "/en")
+	{
+		var anasayfaLink = $('.navbar ul li a[href="/en/home"]');
+        anasayfaLink.addClass('active');
+        anasayfaLink.closest('li.dropdown').addClass('active');
+	}
+	else {
+        // Diğer durumlarda: tam URL eşleşmesini kontrol et
+        $('.navbar ul li a').each(function() {
+            if (this.href === document.URL) {
+                $(this).addClass('active');
+                $(this).closest('li.dropdown').addClass('active');
+            }
+        });
+    }
+			
 
-			var links = $('.navbar ul li a');
-			$.each(links, function (key, va) {
-				if (va.href == document.URL) {
-					$(this).addClass('active');
-				}
-			});
-			$('.active').closest('li.dropdown').addClass('active');
+			
+
+    
 			
 
 			//Effects on scroll
@@ -139,7 +157,8 @@ Version: 2.0
 			});
 
 			$('#owl-adopt-single').owlCarousel({
-				loop: true,
+				loop: false,
+				rewind: true,
 				margin: 0,
 				items: 1,
 				autoplay: true,

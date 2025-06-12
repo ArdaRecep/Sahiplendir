@@ -33,10 +33,7 @@ class Profile extends Component
         $this->email         = $user->email;
         $this->phone         = $user->phone;
         $this->profile_photo = $user->profile_photo;
-        $this->listings = $user->listings()
-                              ->where('status', 'active')
-                              ->latest()
-                              ->get();
+        $this->listings = $user->listings()->latest()->get();
     }
 
     protected function rules()
@@ -72,7 +69,13 @@ class Profile extends Component
             'phone'    => $this->phone,
         ]);
 
-        session()->flash('success','Profiliniz güncellendi.');
+        session()->flash('success', 'Profiliniz güncellendi.');
+        $this->dispatch('swal', [
+                'title' => 'Profiliniz güncellendi',
+                'confirmButtonText' => 'Tamam',
+                'icon' => 'success',
+                'iconColor' => 'green',
+            ]);
         $this->mount($this->language_id); // yeni photo path vs. güncellensin
     }
 

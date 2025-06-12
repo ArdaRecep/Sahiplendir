@@ -13,17 +13,20 @@ class Listing extends Model
         'title',
         'description',
         'category_id',
-        'city',
-        'district',
-        'neighborhood',
-        'quarter',
+        'sub_category_id',
+        'city_id',
+        'district_id',
+        'neigborhood_id',
+        'quarter_id',
         'postal_code',
         'status',
         'photos',
+        'data',
         'language_id',
     ];
     protected $casts=[
         'photos' => 'array',
+        'data' => 'array',
     ];
 
     protected static function booted()
@@ -50,6 +53,29 @@ class Listing extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+    /**
+     * İlanın alt kategorisi
+     */
+    public function subCategory(): BelongsTo
+    {
+        return $this->belongsTo(SubCategory::class);
+    }
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+    public function district(): BelongsTo
+    {
+        return $this->belongsTo(District::class);
+    }
+    public function neigborhood(): BelongsTo
+    {
+        return $this->belongsTo(Neigborhood::class);
+    }
+    public function quarter(): BelongsTo
+    {
+        return $this->belongsTo(Quarter::class);
     }
     public function language()
 {

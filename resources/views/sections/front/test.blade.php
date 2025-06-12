@@ -1,0 +1,1 @@
+@livewire('test',[$language_id])

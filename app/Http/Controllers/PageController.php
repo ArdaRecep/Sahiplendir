@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Language;
 use App\Models\Page;
 use App\Models\Listing;
+use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -18,6 +20,16 @@ class PageController extends Controller
         'listing' => [
             'model' => Listing::class,
             'slug_field' => 'listing_no',
+            'language_field' => 'language_id'
+        ],
+        'post' => [
+            'model' => Post::class,
+            'slug_field' => 'slug',
+            'language_field' => 'language_id'
+        ],
+        'postCategory' => [
+            'model' => PostCategory::class,
+            'slug_field' => 'slug',
             'language_field' => 'language_id'
         ],
     ];

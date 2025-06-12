@@ -72,12 +72,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\SiteUser::class,    // Site ziyaretçileri
         ],
-
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*

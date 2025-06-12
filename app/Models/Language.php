@@ -34,4 +34,12 @@ class Language extends Model
     {
         return $this->hasMany(Listing::class);
     }
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+    public function post_categories(): HasMany
+    {
+        return $this->hasMany(PostCategory::class);
+    }
 }

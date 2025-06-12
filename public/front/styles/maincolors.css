@@ -25,7 +25,7 @@ a:hover,.section-heading:before,.navbar-brand i,.serviceBox:hover .service-icon 
 img{
     transition: 0.5s;
 }
-img:hover{
+.img-fluid:hover{
     scale: 1.02; transition: 0.5s;
 }
 blockquote:before,.team-style1:hover figure.team-style3 i,.top-bar .contact-details i, .top-bar .social-list li ul.social-media i,.top-bar , .serviceBox .service-icon i {
@@ -40,7 +40,7 @@ blockquote:before,.team-style1:hover figure.team-style3 i,.top-bar .contact-deta
 a:hover,h6{color:#fa7817}
 a{color: black; text-decoration: underline;}
 .nav-tabs .nav-link.active, .bg-light-custom, .team-style1,.accordion-cards .card-body,.testimonial .content,.navbar-toggler:hover{
-    background:#fa7817;
+    background: #FBF4DE;
 }
 .tab-content{background:#FBF4DE;}
 .dropdown-item:hover,.page-object1 i,.page-object2 i, .nav-link:hover {

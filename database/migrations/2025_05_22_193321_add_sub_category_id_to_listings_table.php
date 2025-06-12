@@ -8,17 +8,17 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('listings', function (Blueprint $table) {
-            $table->string('listing_no', 20)
-                ->nullable()
-                ->unique()
-                ->after('id');
+            $table->foreignId('sub_category_id')
+              ->constrained()
+              ->cascadeOnDelete();
         });
     }
 
     public function down(): void
     {
         Schema::table('listings', function (Blueprint $table) {
-            $table->dropColumn('listing_no');
+            $table->dropForeign(['sub_category_id']);
+            $table->dropColumn('sub_category_id');
         });
     }
 };

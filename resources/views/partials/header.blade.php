@@ -31,6 +31,7 @@
                         href="/tr/hesap"><span><strong>{{ Auth::guard('siteuser')->user()->username }}</strong></span></a>
                     @livewire('logout')
                 </div>
+                <a href="/messages" style="margin-left: 15px;"><i class="far fa-bell" style="color: black;"></i></a>
             @else
                 <a href="/tr/giris-yap" class="text-sm text-blue-600 hover:underline" style="margin-left: 5px">
                     <i class="fas fa-sign-in-alt"></i>

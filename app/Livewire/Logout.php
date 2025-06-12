@@ -9,11 +9,10 @@ class Logout extends Component
 {
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('siteuser')->logout();
         session()->invalidate();
         session()->regenerateToken();
-
-        return redirect()->intended('/');
+        return redirect('/tr');
     }
 
     public function render()

@@ -20,6 +20,10 @@ class District extends Model
     {
         return $this->belongsTo(City::class);
     }
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
 
     /**
      * Bir ilçenin birden çok mahallesi olabilir.

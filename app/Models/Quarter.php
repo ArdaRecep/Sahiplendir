@@ -20,4 +20,8 @@ class Quarter extends Model
     {
         return $this->belongsTo(Neigborhood::class);
     }
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
 }

@@ -35,16 +35,17 @@ class Page extends Model
 
         static::saving(function ($page) {
             if ($page->isDirty('is_home') && $page->is_home) {
-                // 1. Tüm sayfalarda is_home = false yap
+                //Bir sayfa anasayfa yapıldıysa önceki anasayfa yapılan sayfayı anasayfalıktan çıkar
                 static::query()->update(['is_home' => false]);
 
-                // 2. Bu kaydın group_id'sine sahip tüm sayfalarda is_home = true yap
+                //Anasayfa yapılan sayfanın diğer dillerini de anasayfa yap
                 static::where('group_id', $page->group_id)
                     ->update(['is_home' => true]);
             }
         });
 
         static::deleted(function ($page) {
+            //Aynı sayfanın diğer dillerini de sil
             static::where('group_id', $page->group_id)
                 ->where('id', '!=', $page->id)
                 ->get()

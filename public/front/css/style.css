@@ -823,12 +823,12 @@ Last change:27 June 2023
      border-bottom: 0px!important;
 }
  .blog-card .post-info:before {
-     content: "\f126";
+     content: "\f133";
+     font-family: "Font Awesome 5 Free";
      z-index: 0;
      opacity: 0.8;
      font-size: 70px;
      transform: rotate(-20deg);
-     font-family: "flaticon";
      font-size: 20px;
      z-index: 0;
      text-shadow: 0px 1px 20px rgba(245, 240, 240, 0.9);

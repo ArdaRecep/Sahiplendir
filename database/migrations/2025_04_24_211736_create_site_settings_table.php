@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
             $table->json('data')->nullable();
-            $table->uuid('group_id')->nullable(); // farklı dillerdeki sayfa grubunun ortak kimliği
+            $table->uuid('group_id')->nullable();
             $table->foreignId('language_id')->constrained()->cascadeOnDelete();
             $table->string("logo")->nullable();
             $table->string("footer_logo")->nullable();

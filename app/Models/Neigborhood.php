@@ -28,4 +28,8 @@ class Neigborhood extends Model
     {
         return $this->hasMany(Quarter::class);
     }
+    public function listings()
+    {
+        return $this->hasMany(Listing::class);
+    }
 }
