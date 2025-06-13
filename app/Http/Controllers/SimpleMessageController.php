@@ -19,12 +19,21 @@ class SimpleMessageController extends Controller
                 'recipient_id' => 'required|exists:site_users,id',
                 'body' => 'required|string|max:2000',
             ]);
-
-            SimpleMessage::create([
-                'sender_id' => Auth::id(),
-                'recipient_id' => $data['recipient_id'],
-                'body' => $data['body'],
-            ]);
+            $msg = preg_replace('/^.*?:\s*/', '', $data['body']);
+            if (trim($msg) === '') {
+                return redirect()->back()->with('swal', [
+                    'title' => 'Mesajınız gönderilemedi',
+                    'html' => 'Mesajınız gönderilemedi. Mesajınızı doğru bir formatta yazmış olduğunuza emin olun.',
+                    'icon' => 'error',
+                    'confirmButtonText' => 'Tamam',
+                ]);
+            } else {
+                SimpleMessage::create([
+                    'sender_id' => Auth::id(),
+                    'recipient_id' => $data['recipient_id'],
+                    'body' => $data['body'],
+                ]);
+            }
         } catch (\Exception $e) {
             return redirect()->back()->with('swal', [
                 'title' => 'Mesajınız gönderilemedi',
@@ -79,16 +88,31 @@ class SimpleMessageController extends Controller
         $me = Auth::id();
         $other = $user->id;
 
-        // İlan sahibi veya katılımcı olduğunuzu garanti altına alabilirsiniz
+        // 1) Mevcut konuşmayı getir (sizin ↔ diğer kişi)
         $conversation = SimpleMessage::where(function ($q) use ($me, $other) {
-            $q->where('sender_id', $me)->where('recipient_id', $other);
+            $q->where('sender_id', $me)
+                ->where('recipient_id', $other);
         })
             ->orWhere(function ($q) use ($me, $other) {
-                $q->where('sender_id', $other)->where('recipient_id', $me);
+                $q->where('sender_id', $other)
+                    ->where('recipient_id', $me);
             })
             ->orderBy('created_at')
             ->get();
 
-        return view('messages.thread', compact('conversation', 'user'));
+        // 2) Kanal listesi için tüm ilgili kullanıcıları topla
+        $fromSenders = SimpleMessage::where('recipient_id', $me)->pluck('sender_id');
+        $toRecipients = SimpleMessage::where('sender_id', $me)->pluck('recipient_id');
+        $participantIds = $fromSenders
+            ->merge($toRecipients)
+            ->unique()
+            ->filter(fn($id) => $id !== $me)
+            ->values();
+
+        $participants = SiteUser::whereIn('id', $participantIds)->get();
+
+        // 3) View’e hem conversation, hem user (diğer kişi), hem de participants dizisini gönder
+        return view('messages.thread', compact('conversation', 'user', 'participants'));
     }
+
 }

@@ -49,8 +49,8 @@
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel">
                     <div class="row">
                         <div class="col-12">
-                            <div class="sign__wrap">
-                                <div class="row justify-content-center">
+                            <div class="sign__wrap row">
+                                <div class="row justify-content-center col-md-8">
                                     <form wire:submit.prevent="save" enctype="multipart/form-data"
                                         style="width: 450px;">
                                         <div class="d-flex align-items-center justify-content-center">
@@ -61,61 +61,93 @@
                                             @endif
                                         </div>
                                         <div style="display: flex;justify-content: center;">
-
                                             <input type="file" id="new_photo" wire:model="new_photo"
-                                                class="mt-4 mb-4" style="width: 200px;">
+                                                class="form-control mt-4 mb-4" style="width: 250px;">
                                             @error('new_photo')
                                                 <div class="text-red-600 text-sm">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                        <div style="display: flex; justify-content: center; align-items: center;">
+                                            <div style="width: fit-content">
+                                                <div class="mb-4">
+                                                    <label>Kullanıcı Adı:</label>
+                                                    <input type="text" wire:model.defer="username"
+                                                        class="form-control inp">
+                                                    @error('username')
+                                                        <div class="text-red-600 text-sm">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
 
-                                        <div class="mb-4" style="display: flex;justify-content: space-between;">
-                                            <label>Kullanıcı Adı:</label>
-                                            <input type="text" wire:model.defer="username"
-                                                class="block w-full border rounded px-3 py-2 inp">
-                                            @error('username')
+                                                <div class="mb-4">
+                                                    <label>Ad:</label>
+                                                    <input type="text" wire:model.defer="name"
+                                                        class="form-control inp">
+                                                    @error('name')
+                                                        <div class="text-red-600 text-sm">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label>Soyad:</label>
+                                                    <input type="text" wire:model.defer="surname"
+                                                        class="form-control inp">
+                                                    @error('surname')
+                                                        <div class="text-red-600 text-sm">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label>E-Posta:</label>
+                                                    <input type="email" wire:model.defer="email"
+                                                        class="form-control inp">
+                                                    @error('email')
+                                                        <div class="text-red-600 text-sm">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <label>Telefon:</label>
+                                                    <input type="tel" wire:model.defer="phone"
+                                                        class="form-control inp">
+                                                    @error('phone')
+                                                        <div class="text-red-600 text-sm">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                                    Bilgileri Güncelle
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row justify-content-center col-md-4 align-items-center">
+                                    <form wire:submit.prevent="changePassword" style="height: fit-content;">
+                                        <div class="mb-4">
+                                            <label>Eski Şifre:</label>
+                                            <input type="password" wire:model.defer="old_password"
+                                                class="form-control inp">
+                                            @error('old_password')
                                                 <div class="text-red-600 text-sm">{{ $message }}</div>
                                             @enderror
                                         </div>
-
-                                        <div class="mb-4" style="display: flex;justify-content: space-between;">
-                                            <label>Ad:</label>
-                                            <input type="text" wire:model.defer="name"
-                                                class="block w-full border rounded px-3 py-2 inp">
-                                            @error('name')
+                                        <div class="mb-4">
+                                            <label>Yeni Şifre:</label>
+                                            <input type="password" wire:model.defer="new_password"
+                                                class="form-control inp">
+                                            @error('new_password')
                                                 <div class="text-red-600 text-sm">{{ $message }}</div>
                                             @enderror
                                         </div>
-
-                                        <div class="mb-4" style="display: flex;justify-content: space-between;">
-                                            <label>Soyad:</label>
-                                            <input type="text" wire:model.defer="surname"
-                                                class="block w-full border rounded px-3 py-2 inp">
-                                            @error('surname')
+                                        <div class="mb-4">
+                                            <label>Yeni Şifre (Tekrar):</label>
+                                            <input type="password" wire:model.defer="new_password_confirmation"
+                                                class="form-control inp">
+                                            @error('new_password_confirmation')
                                                 <div class="text-red-600 text-sm">{{ $message }}</div>
                                             @enderror
                                         </div>
-
-                                        <div class="mb-4" style="display: flex;justify-content: space-between;">
-                                            <label>E-Posta:</label>
-                                            <input type="email" wire:model.defer="email"
-                                                class="block w-full border rounded px-3 py-2 inp">
-                                            @error('email')
-                                                <div class="text-red-600 text-sm">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="mb-4" style="display: flex;justify-content: space-between;">
-                                            <label>Telefon:</label>
-                                            <input type="tel" wire:model.defer="phone"
-                                                class="block w-full border rounded px-3 py-2 inp">
-                                            @error('phone')
-                                                <div class="text-red-600 text-sm">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                            Bilgileri Güncelle
+                                        <button type="submit" class="btn btn-warning inp">
+                                            Şifreyi Güncelle
                                         </button>
                                     </form>
                                 </div>
@@ -139,7 +171,7 @@
                                         @php
                                         $listingLang = App\Models\Language::findOrFail($listing->language_id); @endphp
                                         @if ($listing->status == 'active')
-                                            <a href="/{{ $listingLang->code }}/{{ $listing->listing_no }}"
+                                            <a href="/{{ $listingLang->code }}/{{ $listing->listing_no }}" style="text-decoration-line: none"
                                                 class="card__link">
                                         @endif
                                         <div class="card__cover" style="height: 300px;">

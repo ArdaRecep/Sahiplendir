@@ -28,7 +28,7 @@
 </style>
 @livewire('listing-create',[$language_id])
 @else
-<div style="height: 53.6vh; display: flex; justify-content: center; align-items: center;">
+<div style="min-height: 53.6vh; display: flex; justify-content: center; align-items: center;">
 <div class="alert alert-danger" role="alert" style="height: fit-content; width: 100%; text-align: center;">
   İlan Vermek İçin Öncelikle <a href="/tr/giris-yap">Giriş Yap</a>malı, Hesabın Yoksa <a href="/tr/kayit-ol">Kayıt Ol</a>malısın!
 </div>

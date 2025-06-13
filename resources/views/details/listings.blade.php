@@ -179,15 +179,73 @@
                                                 </div>
                                                 @if ($me !== $owner)
                                                     <div class="modal-footer">
+                                                        @php
+                                                            $prefix = $page->title . ': ';
+                                                        @endphp
                                                         <form action="{{ route('message.send') }}" method="POST"
                                                             class="w-100 d-flex">
                                                             @csrf
                                                             <input type="hidden" name="recipient_id"
                                                                 value="{{ $owner }}">
-                                                            <textarea type="text" name="body" class="form-control me-2" required>Merhaba {{ $page->title }} isimli hayvanınızı sahiplenmek istiyorum.
-                                                        </textarea>
+                                                            <textarea id="body" type="text" name="body" class="form-control me-2" required>{{ $prefix }}</textarea>
                                                             <button type="submit" class="btn btn-primary">Gönder</button>
                                                         </form>
+
+                                                        <script>
+                                                            document.addEventListener('DOMContentLoaded', function() {
+                                                                const prefix = @json($prefix);
+                                                                const textarea = document.getElementById('body');
+
+                                                                // 1) İlk yüklemede prefix’i kesinleştir
+                                                                if (!textarea.value.startsWith(prefix)) {
+                                                                    textarea.value = prefix;
+                                                                }
+
+                                                                // 2) Cursor başlangıç pozisyonunu prefix sonrası koy
+                                                                function setCursorToEnd() {
+                                                                    const pos = textarea.value.length;
+                                                                    textarea.setSelectionRange(pos, pos);
+                                                                }
+                                                                setCursorToEnd();
+
+                                                                // 3) Prefix’in silinmesini engelle
+                                                                textarea.addEventListener('keydown', function(e) {
+                                                                    const start = textarea.selectionStart;
+                                                                    // Backspace
+                                                                    if (e.key === 'Backspace' && start <= prefix.length) {
+                                                                        e.preventDefault();
+                                                                    }
+                                                                    // Delete
+                                                                    if (e.key === 'Delete' && start < prefix.length) {
+                                                                        e.preventDefault();
+                                                                    }
+                                                                });
+
+                                                                // 4) Mouse ile prefix kısmına tıklanıp seçilmesini engelle
+                                                                textarea.addEventListener('mousedown', function(e) {
+                                                                    setTimeout(() => {
+                                                                        if (textarea.selectionStart < prefix.length) {
+                                                                            setCursorToEnd();
+                                                                        }
+                                                                    }, 0);
+                                                                });
+
+                                                                // 5) Her input’ta prefix kontrolü, eğer silinmişse geri ekle
+                                                                textarea.addEventListener('input', function(e) {
+                                                                    if (!textarea.value.startsWith(prefix)) {
+                                                                        const content = textarea.value;
+                                                                        textarea.value = prefix + content.slice(prefix.length);
+                                                                    }
+                                                                });
+
+                                                                // 6) Form gönderilirken de prefix’i koru (ekstra güvenlik)
+                                                                textarea.form.addEventListener('submit', function() {
+                                                                    if (!textarea.value.startsWith(prefix)) {
+                                                                        textarea.value = prefix + textarea.value;
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
                                                     </div>
                                                 @endif
                                             </div>
@@ -203,7 +261,8 @@
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body" style="max-height:400px; overflow-y:auto;">
-                                                    <a href="/tr/giris-yap" style="text-decoration:underline;">Giriş yap</a>madan mesaj gönderemezsiniz!
+                                                    <a href="/tr/giris-yap" style="text-decoration:underline;">Giriş
+                                                        yap</a>madan mesaj gönderemezsiniz!
                                                 </div>
                                             </div>
                                         </div>
