@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Language;
 use Livewire\Component;
 use App\Models\TestQuestion;
 use App\Models\OptionAnimalScore;
@@ -63,6 +64,7 @@ class Test extends Component
     }
     public function render()
     {
-        return view('livewire.test');
+        $language = Language::findOrFail($this->language_id);
+        return view('livewire.test',['language' => $language]);
     }
 }

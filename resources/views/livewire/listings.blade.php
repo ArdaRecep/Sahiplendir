@@ -37,7 +37,7 @@
                                 style="height: 300px; width: 340px;">
                         </a>
                         <div style="padding-top: 10px!important;">
-                            <p>
+                            <p style="margin-bottom: 5px!important;">
                                 <i class="flaticon-pawprint-1"></i>
                                 {{ $category ?? '' }} / {{ $subCategory ?? '' }}
                             </p>
@@ -45,18 +45,30 @@
                         <div class="card-body" style="padding: 0">
                             <a style="text-decoration-line: none"
                                 href="/{{ $language->code . '/' . $listing['listing_no'] }}">
-                                <h3 class="card-title">{{ Str::limit($listing['title'], 10) ?? '' }}</h3>
+                                <h3 class="card-title">{{ Str::limit($listing['title'], 15) ?? '' }}</h3>
                             </a>
                             <!-- excerpt -->
-                            <a href="/{{ $language->code . '/' . $listing['listing_no'] }}"
-                                class="btn btn-primary">İlanı Gör</a>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a href="/{{ $language->code . '/' . $listing['listing_no'] }}"
+                                        style="text-decoration-line: none">
+                                        {{ Str::limit($listing['description'], 74) ?? '' }}
+                                    </a>
+                                </div>
+                                <div class="col-md-5">
+                                    <a class="btn btn-primary"
+                                        href="/{{ $language->code . '/' . $listing['listing_no'] }}">
+                                        {{ trans('theme/front.see', [], $language->code) }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <!--card-footer -->
                     </div>
                     <!-- End Blog Post -->
                 @empty
                     <div class="alert alert-warning d-block" role="alert" style="height: fit-content;">
-                        Aradığınız Kriterlere Uygun Hayvan Bulunamadı!
+                        {{ trans('theme/front.criter', [], $language->code) }}
                     </div>
                 @endforelse
                 <!-- /card blog-card -->
@@ -68,24 +80,25 @@
             <!-- /col-lg-8 -->
             <!-- Sidebar Widgets Column -->
             <div class="col-md-4">
-                <div class="blog-sidebar bg-light-custom border-irregular1" style="position: sticky!important; top: 140px;">
+                <div class="blog-sidebar bg-light-custom border-irregular1"
+                    style="position: sticky!important; top: 140px;">
                     <!-- Search Widget -->
                     <div class="card mb-12">
                         <div>
                             <div class="card mb-4 p-3">
-                                <h5 class="card-header mb-3">Filtrele</h5>
+                                <h5 class="card-header mb-3">{{ trans('theme/front.filter', [], $language->code) }}</h5>
 
                                 {{-- Arama --}}
                                 <div class="mb-3">
                                     <input type="text" wire:model.live="search" class="form-control"
-                                        placeholder="Başlık, açıklama ara…" />
+                                        placeholder="{{ trans('theme/front.search', [], $language->code) }}" />
                                 </div>
 
                                 {{-- Kategori & Alt Kategori --}}
                                 <div class="row gy-2 mb-3">
                                     <div class="col">
                                         <select wire:model.live="category_id" class="form-control">
-                                            <option value="">Tüm Hayvanlar</option>
+                                            <option value="">{{ trans('theme/front.all_animals', [], $language->code) }}</option>
                                             @foreach ($categories as $cat)
                                                 <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                                             @endforeach
@@ -93,7 +106,7 @@
                                     </div>
                                     <div class="col">
                                         <select wire:model.live="sub_category_id" class="form-control">
-                                            <option value="">Tüm Cinsler</option>
+                                            <option value="">{{ trans('theme/front.all_breeds', [], $language->code) }}</option>
                                             @foreach ($subCategories as $sub)
                                                 <option value="{{ $sub->id }}">{{ $sub->name }}</option>
                                             @endforeach
@@ -104,7 +117,7 @@
                                 {{-- Şehir --}}
                                 <div class="mb-3">
                                     <select wire:model.live="city_id" class="form-control">
-                                        <option value="">Tüm Şehirler</option>
+                                        <option value="">{{ trans('theme/front.all_cities', [], $language->code) }}</option>
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}">{{ $city->name }}</option>
                                         @endforeach
@@ -115,13 +128,13 @@
                                 <div class="row gy-2 mb-3">
                                     <div class="col-6">
                                         <input type="number" wire:model.live="age_value" class="form-control"
-                                            placeholder="Yaş değeri" min="0" />
+                                            placeholder="{{ trans('theme/front.age', [], $language->code) }}" min="0" />
                                     </div>
                                     <div class="col-6">
                                         <select wire:model.live="age_unit" class="form-control">
-                                            <option value="">Birim</option>
-                                            <option value="Aylık">Aylık</option>
-                                            <option value="Yaşında">Yaşında</option>
+                                            <option value="">{{ trans('theme/front.unit', [], $language->code) }}</option>
+                                            <option value="{{ trans('theme/front.month', [], $language->code) }}">{{ trans('theme/front.month', [], $language->code) }}</option>
+                                            <option value="{{ trans('theme/front.year', [], $language->code) }}">{{ trans('theme/front.year', [], $language->code) }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -130,26 +143,26 @@
                                 <div class="row gy-2 mb-3">
                                     <div class="col-6">
                                         <select wire:model.live="size" class="form-control">
-                                            <option value="">Boyut</option>
-                                            <option>Büyük</option>
-                                            <option>Orta</option>
-                                            <option>Küçük</option>
+                                            <option value="">{{ trans('theme/front.all_sizes', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.large', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.medium', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.small', [], $language->code) }}</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
                                         <select wire:model.live="gender" class="form-control">
-                                            <option value="">Cinsiyet</option>
-                                            <option>Erkek</option>
-                                            <option>Dişi</option>
+                                            <option value="">{{ trans('theme/front.gender', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.male', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.female', [], $language->code) }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row gy-2 mb-3">
                                     <div class="col-6">
                                         <select wire:model.live="neutered" class="form-control">
-                                            <option value="">Kısır mı?</option>
-                                            <option>Evet</option>
-                                            <option>Hayır</option>
+                                            <option value="">{{ trans('theme/front.neutered', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.yes', [], $language->code) }}</option>
+                                            <option>{{ trans('theme/front.no', [], $language->code) }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -158,7 +171,7 @@
                                         id="flexSwitchCheckDefault" wire:model.live="apartment">
                                     <label class="flexSwitchCheckDefault" for="flexSwitchCheckDefault"
                                         style="margin-top: 0; color: black;">
-                                        Apartmanda Yaşayabilir
+                                        {{ trans('theme/front.apartment', [], $language->code) }}
                                     </label>
                                 </div>
                                 <div class="form-check mb-4 form-switch">
@@ -166,14 +179,14 @@
                                         id="flexSwitchCheckDefault2" wire:model.live="otherAnimals">
                                     <label class="flexSwitchCheckDefault" for="flexSwitchCheckDefault2"
                                         style="margin-top: 0; color: black;">
-                                        Diğer Hayvanlarla Anlaşabilir
+                                        {{ trans('theme/front.other', [], $language->code) }}
                                     </label>
                                 </div>
 
                                 {{-- Sıfırla butonu --}}
                                 <div class="text-end">
                                     <button wire:click="resetFilters" class="btn btn-secondary">
-                                        Tümünü Sıfırla
+                                        {{ trans('theme/front.reset', [], $language->code) }}
                                     </button>
                                 </div>
                             </div>

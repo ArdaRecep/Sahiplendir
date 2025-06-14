@@ -13,10 +13,12 @@ use App\Models\Neigborhood;
 use App\Models\Quarter;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 
 class ListingCreate extends Component
 {
     use WithFileUploads;
+    
     public $cities;
     public $categories;
     public $subCategories;
@@ -217,6 +219,8 @@ class ListingCreate extends Component
 
     public function render()
     {
-        return view('livewire.listing-create', [$this->language_id]);
+        $language = Language::findOrFail($this->language_id);
+        App::setLocale($language->code);
+        return view('livewire.listing-create', [$this->language_id,'language'=>$language]);
     }
 }

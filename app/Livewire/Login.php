@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App;
+use App\Models\Language;
 use Livewire\Component;
 use App\Models\SiteUser;
 use Illuminate\Support\Facades\Auth;
@@ -9,9 +11,15 @@ use Illuminate\Support\Facades\Hash;
 
 class Login extends Component
 {
+    public $language;
     public $email;
     public $password;
     public $remember = false;
+
+    public function mount($language_id)
+    {
+        $this->language = Language::findOrFail($language_id);
+    }
 
     protected function rules()
     {
@@ -35,11 +43,12 @@ class Login extends Component
             return redirect()->intended('/');
         }
 
-        $this->addError('email', trans('credentials.invalid'));
+        $this->addError('email', trans("validation.invalid", [], $this->language->code));
     }
 
     public function render()
     {
-        return view('livewire.login');
+        App::setLocale($this->language->code);
+        return view('livewire.login', ['language' => $this->language]);
     }
 }

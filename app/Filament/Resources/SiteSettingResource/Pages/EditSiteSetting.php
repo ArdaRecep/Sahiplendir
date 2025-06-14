@@ -36,12 +36,13 @@ class EditSiteSetting extends EditRecord
         foreach ($all_languages as $language) {
             $data['site_settings'][$language->code]['language_id'] = $language->id;
             $data['site_settings'][$language->code]['group_id'] = $uuid;
+            $data['site_settings'][$language->code]['footer_text'] = $data['footer_text'] ?? null;
             $data['site_settings'][$language->code]['logo'] = $data['logo'] ?? null;
             $data['site_settings'][$language->code]['footer_logo'] = $data['footer_logo'] ?? null;
             $data['site_settings'][$language->code]['fav_icon'] = $data['fav_icon'] ?? null;
         }
 
-        unset($data['logo'], $data['footer_logo'], $data['fav_icon']);
+        unset($data['logo'], $data['footer_logo'], $data['fav_icon'], $data['footer_text']);
 
         return $data;
     }
@@ -74,6 +75,7 @@ class EditSiteSetting extends EditRecord
                 SiteSetting::create([
                     'data' => $data['site_settings'][$languageCode]['data'] ?? null,
                     'language_id' => $data['site_settings'][$languageCode]['language_id'] ?? null,
+                    'footer_text' => $data['site_settings'][$languageCode]['footer_text'] ?? null,
                     'logo' => $data['site_settings'][$languageCode]['logo'] ?? null,
                     'footer_logo' => $data['site_settings'][$languageCode]['footer_logo'] ?? null,
                     'fav_icon' => $data['site_settings'][$languageCode]['fav_icon'] ?? null,

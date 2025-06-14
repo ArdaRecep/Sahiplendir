@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App;
+use App\Models\Language;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\SiteUser;
@@ -21,6 +23,13 @@ class Register extends Component
     public $password;
     public $password_confirmation;
     public $profile_photo;
+    public $language;
+
+
+    public function mount($language_id)
+    {
+        $this->language = Language::findOrFail($language_id);
+    }
 
     protected function rules()
     {
@@ -63,6 +72,7 @@ class Register extends Component
 
     public function render()
     {
-        return view('livewire.register');
+        App::setLocale($this->language->code);
+        return view('livewire.register', ['language' => $this->language]);
     }
 }

@@ -26,4 +26,4 @@
   font-size: 14px;
 }
 </style>
-@livewire('register')
+@livewire('register',['language_id' => $language_id])

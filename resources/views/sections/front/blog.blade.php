@@ -25,8 +25,13 @@
     @endif
 
     @if ($section->data['type'] == 'all')
-        <section class="doctor-content content">
+        <section class="doctor-content content" style="padding-top: 30px">
             <!-- Page Content -->
+            @if (isset($section->data['top_title']))
+                <div class="section-heading text-center">
+                    <h2>{{ $section->data['top_title'] }}</h2>
+                </div>
+            @endif
             <div class="content">
                 @livewire('blog', ['language_id' => $language_id])
             </div>

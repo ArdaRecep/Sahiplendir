@@ -23,6 +23,7 @@ class ViewServiceProvider extends ServiceProvider
     
             $view->with([
                 'title' => $siteSetting->data['name'] ?? config('app.name'),
+                'footer_text' => $siteSetting->data['footer_text'] ?? "",
                 'logo' => isset($siteSetting->logo) ? Storage::url($siteSetting->logo) : '',
                 'footer_logo' => isset($siteSetting->footer_logo) ? Storage::url($siteSetting->footer_logo) : '',
                 'fav_icon' => isset($siteSetting->fav_icon) ? Storage::url($siteSetting->fav_icon) : '',

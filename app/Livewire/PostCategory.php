@@ -4,10 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Language;
 use App\Models\PostCategory as ModelsPostCategory;
+use Livewire\WithPagination;
 use Livewire\Component;
 
 class PostCategory extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public $language_id;
     public $category_id;
     public $page;
@@ -37,11 +40,11 @@ class PostCategory extends Component
         $posts = $category->posts()
             ->when(!is_null($this->search), function ($query) {
                 $query->where('title', 'like', '%' . $this->search . '%');
-            })
-            ->get();
+            })->whereNotNull('published_at')->latest();
+
         return view('livewire.post-category', [
             'categories' => $categories,
-            'posts' => $posts,
+            'posts' => $posts->paginate(6),
             'language' => $language,
             'postCount' => $posts->count(),
             'category_id' => $this->category_id,

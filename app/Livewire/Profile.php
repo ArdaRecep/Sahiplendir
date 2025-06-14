@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class Profile extends Component
     public $new_photo;
     public $listings;
     public $language_id;
+    public $language;
     public $old_password;
     public $new_password;
     public $new_password_confirmation;
@@ -37,6 +39,7 @@ class Profile extends Component
         $this->phone = $user->phone;
         $this->profile_photo = $user->profile_photo;
         $this->listings = $user->listings()->latest()->get();
+        $this->language = Language::findOrFail($this->language_id);
     }
 
     protected function rules()
@@ -48,7 +51,7 @@ class Profile extends Component
             'name' => 'required|string|max:50',
             'surname' => 'required|string|max:50',
             'email' => ['required', 'email', Rule::unique('site_users', 'email')->ignore($userId)],
-            'phone' => ['nullable', 'regex:/^[0-9\-\+\s]+$/', Rule::unique('site_users', 'phone')->ignore($userId)],
+            'phone' => ['required', 'regex:/^[0-9\-\+\s]+$/', Rule::unique('site_users', 'phone')->ignore($userId)],
             'new_photo' => 'nullable|image|max:1024',
         ];
     }
@@ -99,7 +102,7 @@ class Profile extends Component
 
         // Eski şifre kontrolü
         if (!Hash::check($this->old_password, $user->password)) {
-            $this->addError('old_password', 'Eski şifreniz yanlış.');
+            $this->addError('old_password', trans("theme/front.wrong_password",[],$this->language->code));
             return;
         }
 
@@ -123,7 +126,7 @@ class Profile extends Component
 
     public function render()
     {
-        $language = Language::findOrFail($this->language_id);
-        return view('livewire.profile', ['language' => $language]);
+        App::setLocale($this->language->code);
+        return view('livewire.profile', ['language' => $this->language]);
     }
 }

@@ -26,8 +26,8 @@ class SubCategoryResource extends Resource
     protected static ?string $model = SubCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
-    protected static ?string $navigationGroup = 'İçerik Yönetimi';
-    protected static ?string $navigationLabel = 'Alt Kategoriler';
+    protected static ?string $navigationGroup = 'Hayvanlar';
+    protected static ?string $navigationLabel = 'Cinsler';
 
     public static function form(Form $form): Form
     {

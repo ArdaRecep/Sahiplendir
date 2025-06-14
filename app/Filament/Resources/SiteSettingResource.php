@@ -6,6 +6,7 @@ use App\Filament\Resources\SiteSettingResource\Pages;
 use App\Filament\Resources\SiteSettingResource\RelationManagers;
 use App\Models\SiteSetting;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -106,22 +107,30 @@ class SiteSettingResource extends Resource
 
         return $tabs;
     }
-
-
-
-
     public static function renderSiteSettingFields($language, $data)
     {
         return [
             TextInput::make("site_settings.{$language->code}.data.name")
                 ->label(__('Site İsmi'))
                 ->minLength(2)
+                ->required()
                 ->maxLength(255)
                 ->columnSpanFull()
                 ->afterStateHydrated(function ($component, $state) use ($data, $language) {
                     // Ensure that the page exists for this language
-                    if (isset($data['site_settings'][$language->code])) {
+                    if (isset($data['site_settings'][$language->code]['data']['name'])) {
                         $component->state($data['site_settings'][$language->code]['data']['name']);
+                    }
+                }),
+            Textarea::make("site_settings.{$language->code}.data.footer_text")
+                ->label(__('Footer Metni'))
+                ->minLength(2)
+                ->maxLength(600)
+                ->columnSpanFull()
+                ->afterStateHydrated(function ($component, $state) use ($data, $language) {
+                    // Ensure that the page exists for this language
+                    if (isset($data['site_settings'][$language->code]['data']['footer_text'])) {
+                        $component->state($data['site_settings'][$language->code]['data']['footer_text']);
                     }
                 }),
 

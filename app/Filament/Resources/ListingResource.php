@@ -28,6 +28,9 @@ class ListingResource extends Resource
     protected static ?string $model = Listing::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'İlanlar';
+    protected static ?string $navigationLabel = 'İlanlar (Buradan Onaylanır)';
+    protected static ?int $navigationSort = -2;
 
     public static function form(Form $form): Form
     {
@@ -119,7 +122,8 @@ class ListingResource extends Resource
                     ->options([
                         'inactive' => 'Pasif',
                         'active' => 'Aktif',
-                    ]),
+                    ])
+                    ->default('inactive')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-xl-6">
-                    <h1 class="section__title section__title--head">Profil</h1>
+                    <h1 class="section__title section__title--head">{{ trans("theme/front.account",[],$language->code) }}</h1>
                     @if (session()->has('success'))
                         <div class="mb-4 text-green-600">{{ session('success') }}</div>
                     @endif
@@ -30,12 +30,12 @@
                         <ul class="nav nav-tabs profile__tabs" id="profile__tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tab-1" role="tab"
-                                    aria-controls="tab-1" aria-selected="true">Profil</a>
+                                    aria-controls="tab-1" aria-selected="true">{{ trans("theme/front.profile",[],$language->code) }}</a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-2" role="tab"
-                                    aria-controls="tab-2" aria-selected="false">İlanlarım</a>
+                                    aria-controls="tab-2" aria-selected="false">{{ trans("theme/front.my_listing",[],$language->code) }}</a>
                             </li>
                         </ul>
                     </div>
@@ -70,7 +70,7 @@
                                         <div style="display: flex; justify-content: center; align-items: center;">
                                             <div style="width: fit-content">
                                                 <div class="mb-4">
-                                                    <label>Kullanıcı Adı:</label>
+                                                    <label>{{ trans("theme/front.username",[],$language->code) }}:</label>
                                                     <input type="text" wire:model.defer="username"
                                                         class="form-control inp">
                                                     @error('username')
@@ -79,7 +79,7 @@
                                                 </div>
 
                                                 <div class="mb-4">
-                                                    <label>Ad:</label>
+                                                    <label>{{ trans("theme/front.name2",[],$language->code) }}:</label>
                                                     <input type="text" wire:model.defer="name"
                                                         class="form-control inp">
                                                     @error('name')
@@ -88,7 +88,7 @@
                                                 </div>
 
                                                 <div class="mb-4">
-                                                    <label>Soyad:</label>
+                                                    <label>{{ trans("theme/front.surname",[],$language->code) }}:</label>
                                                     <input type="text" wire:model.defer="surname"
                                                         class="form-control inp">
                                                     @error('surname')
@@ -97,7 +97,7 @@
                                                 </div>
 
                                                 <div class="mb-4">
-                                                    <label>E-Posta:</label>
+                                                    <label>{{ trans("theme/front.email",[],$language->code) }}:</label>
                                                     <input type="email" wire:model.defer="email"
                                                         class="form-control inp">
                                                     @error('email')
@@ -106,15 +106,15 @@
                                                 </div>
 
                                                 <div class="mb-4">
-                                                    <label>Telefon:</label>
-                                                    <input type="tel" wire:model.defer="phone"
+                                                    <label>{{ trans("theme/front.phone",[],$language->code) }}:</label>
+                                                    <input type="tel" wire:model.defer="phone" placeholder="0..."
                                                         class="form-control inp">
                                                     @error('phone')
                                                         <div class="text-red-600 text-sm">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                                                    Bilgileri Güncelle
+                                                    {{ trans("theme/front.update",[],$language->code) }}
                                                 </button>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                 <div class="row justify-content-center col-md-4 align-items-center">
                                     <form wire:submit.prevent="changePassword" style="height: fit-content;">
                                         <div class="mb-4">
-                                            <label>Eski Şifre:</label>
+                                            <label>{{ trans("theme/front.old_password",[],$language->code) }}:</label>
                                             <input type="password" wire:model.defer="old_password"
                                                 class="form-control inp">
                                             @error('old_password')
@@ -131,7 +131,7 @@
                                             @enderror
                                         </div>
                                         <div class="mb-4">
-                                            <label>Yeni Şifre:</label>
+                                            <label>{{ trans("theme/front.new_password",[],$language->code) }}:</label>
                                             <input type="password" wire:model.defer="new_password"
                                                 class="form-control inp">
                                             @error('new_password')
@@ -139,7 +139,7 @@
                                             @enderror
                                         </div>
                                         <div class="mb-4">
-                                            <label>Yeni Şifre (Tekrar):</label>
+                                            <label>{{ trans("theme/front.new_password_again",[],$language->code) }}:</label>
                                             <input type="password" wire:model.defer="new_password_confirmation"
                                                 class="form-control inp">
                                             @error('new_password_confirmation')
@@ -147,7 +147,7 @@
                                             @enderror
                                         </div>
                                         <button type="submit" class="btn btn-warning inp">
-                                            Şifreyi Güncelle
+                                            {{ trans("theme/front.update_password",[],$language->code) }}
                                         </button>
                                     </form>
                                 </div>
@@ -161,7 +161,7 @@
                     <div class="row row--grid">
 
                         @if ($listings->isEmpty())
-                            <h3 class="card__title" style="margin-left: 25px;">Henüz ilan vermediniz</h3>
+                            <h3 class="card__title" style="margin-left: 25px;">{{ trans("theme/front.any_listing",[],$language->code) }}</h3>
                         @else
                             @foreach ($listings as $listing)
                                 <div class="col-12 col-md-6 col-lg-4"
@@ -191,7 +191,7 @@
                                             <p class="card__title">
                                                 {{ $listingLang->name }}
                                                 @if ($listing->status == 'inactive')
-                                                    <span>\ Onay Bekliyor...</span>
+                                                    <span>\ {{ trans("theme/front.wait",[],$language->code) }}</span>
                                                 @endif
                                             </p>
                                         </div>

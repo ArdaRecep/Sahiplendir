@@ -1,3 +1,6 @@
+@php
+  $language = App\Models\Language::findOrFail($language_id);
+@endphp
 @if(Auth::guard('siteuser')->check())
 <style>
 .giris {
@@ -30,7 +33,7 @@
 @else
 <div style="min-height: 53.6vh; display: flex; justify-content: center; align-items: center;">
 <div class="alert alert-danger" role="alert" style="height: fit-content; width: 100%; text-align: center;">
-  İlan Vermek İçin Öncelikle <a href="/tr/giris-yap">Giriş Yap</a>malı, Hesabın Yoksa <a href="/tr/kayit-ol">Kayıt Ol</a>malısın!
+  {!! trans("theme/front.login",[],$language->code) !!}
 </div>
 </div>
 @endif

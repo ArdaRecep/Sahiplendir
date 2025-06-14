@@ -24,11 +24,12 @@ class CreateSiteSetting extends CreateRecord
         foreach ($all_languages as $language) {
             $data['site_settings'][$language->code]['group_id'] = $uuid;
             $data['site_settings'][$language->code]['language_id'] = $language->id;
+            $data['site_settings'][$language->code]['footer_text'] = $data['footer_text'] ?? null;
             $data['site_settings'][$language->code]['logo'] = $data['logo'] ?? null;
             $data['site_settings'][$language->code]['footer_logo'] = $data['footer_logo'] ?? null;
             $data['site_settings'][$language->code]['fav_icon'] = $data['fav_icon'] ?? null;
         }
-        unset($data['logo'], $data['footer_logo'], $data['fav_icon']);
+        unset($data['logo'], $data['footer_logo'], $data['fav_icon'], $data['footer_text']);
 
         return $data;
     }

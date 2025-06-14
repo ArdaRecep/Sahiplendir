@@ -3,7 +3,7 @@
         <form wire:submit.prevent="submit" style="width: fit-content;">
             @foreach ($questions as $key => $q)
                 <div class="card" style="border: 1px solid black; color: black; margin-bottom: 30px; margin-top: 30px;">
-                    <h7>{{ $key + 1 }}. Soru</h7>
+                    <h7>{{ $key + 1 }}. {{ trans("theme/front.question",[],$language->code) }}</h7>
                     <h3 class="font-semibold mb-2">{{ $q->question_text }}</h3>
                     @foreach ($q->options as $opt)
                         <label class="inline-flex items-center mb-1">
@@ -20,7 +20,7 @@
             <div style="margin-bottom: 30px; justify-content: center; align-items: center; display: flex;">
                 <div style="width: fit-content">
                     <button type="submit" class="btn btn-primary">
-                        Testi Tamamla
+                        {{ trans("theme/front.complete",[],$language->code) }}
                     </button>
                 </div>
             </div>

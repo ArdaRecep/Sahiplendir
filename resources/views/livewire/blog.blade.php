@@ -25,31 +25,45 @@
                         </div>
                         <a href="{{ '/' . $language->code . '/' . $post->slug }}">
                             <!-- image -->
-                            <img class="card-img-top img-fluid" src="/storage/{{ $post->image }}" alt="">
+                            <img class="card-img-top img-fluid" src="/storage/{{ $post->image }}" alt="" style="height: 240px!important;width: 360px !important;">
                         </a>
                         @if (isset($post->postCategories[0]))
-                            <div style="padding-top: 10px!important;">
-                                <a style="text-decoration-line: none;"
-                                    href="/{{ $language->code }}/{{ $post->postCategories[0]['slug'] }}">
-                                    <i class="flaticon-pawprint-1"></i> {{ $post->postCategories[0]['title'] ?? '' }}
-                                </a>
+                            <div style="padding-top: 5px!important;">
+                                <p style="margin-bottom: 5px!important;">
+                                    <a style="text-decoration-line: none;"
+                                        href="/{{ $language->code }}/{{ $post->postCategories[0]['slug'] }}">
+                                        <i class="flaticon-pawprint-1"></i>
+                                        {{ $post->postCategories[0]['title'] ?? '' }}
+                                    </a>
+                                </p>
                             </div>
                         @endif
-                        <div class="card-body">
-                            <a href="{{ '/' . $language->code . '/' . $post->slug }}">
-                                <h3 class="card-title">{{ $post->title ?? '' }}</h3>
+                        <div class="card-body" style="padding: 0">
+                            <a style="text-decoration-line: none"
+                                href="{{ '/' . $language->code . '/' . $post->slug }}">
+                                <h3 class="card-title" style="font-size: 1.75rem;">{{ Str::limit($post['title'], 40) ?? '' }}</h3>
                             </a>
                             <!-- excerpt -->
-                            <p class="card-text mt-3">{{ $post->description ?? '' }}</p>
-                            <a href="{{ '/' . $language->code . '/' . $post->slug }}" class="btn btn-primary">Devamını
-                                Oku &rarr;</a>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <a href="/{{ $language->code . '/' . $post['slug'] }}"
+                                        style="text-decoration-line: none">
+                                        {{ Str::limit($post['description'], 74) ?? '' }}
+                                    </a>
+                                </div>
+                                <div class="col-md-5">
+                                    <a class="btn btn-primary" href="/{{ $language->code . '/' . $post['slug'] }}">
+                                        {{ trans('theme/front.read_more', [], $language->code) }}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <!--card-footer -->
                     </div>
                     <!-- End Blog Post -->
                 @empty
-                    <div class="alert alert-warning d-block" role="alert">
-                        Aradığınız Kriterlere Uygun Blog Bulunamadı!
+                    <div class="alert alert-warning d-block" role="alert" style="height: fit-content">
+                        {{ trans('theme/front.blog_not_found', [], $language->code) }}
                     </div>
                 @endforelse
                 <!-- /card blog-card -->
@@ -63,11 +77,11 @@
                 <div class="blog-sidebar bg-light-custom border-irregular1" style="position: sticky; top: 140px;">
                     <!-- Search Widget -->
                     <div class="card">
-                        <h5 class="card-header">Ara</h5>
+                        <h5 class="card-header">{{ trans('theme/front.search2', [], $language->code) }}</h5>
                         <div class="card-body">
                             <div class="input-group">
                                 <input type="text" wire:model.live='search' class="form-control"
-                                    placeholder="Ara...">
+                                    placeholder="{{ trans('theme/front.search', [], $language->code) }}">
                                 <span class="input-group-btn">
                                     <button class="btn btn-secondary src" type="button"><i
                                             class="flaticon-animal-1"></i></button>
@@ -78,7 +92,7 @@
 
                     <!-- Categories Widget -->
                     <div class="card">
-                        <h5 class="card-header">Kategoriler</h5>
+                        <h5 class="card-header">{{ trans('theme/front.categories', [], $language->code) }}</h5>
                         <div class="card-body">
                             @foreach ($categories as $category)
                                 <a href="{{ '/' . $language->code . '/' . $category->slug }}"

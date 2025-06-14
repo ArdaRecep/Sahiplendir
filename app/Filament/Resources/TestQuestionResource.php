@@ -24,6 +24,8 @@ class TestQuestionResource extends Resource
     protected static ?string $model = TestQuestion::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Test';
+    protected static ?string $navigationLabel = 'Sorular';
 
     public static function form(Form $form): Form
     {
