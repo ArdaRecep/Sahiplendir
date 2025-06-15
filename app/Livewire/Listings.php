@@ -17,6 +17,7 @@ class Listings extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $language_id;
+    public $language;
     public $search;
     public $category_id;
     public $sub_category_id;
@@ -35,6 +36,7 @@ class Listings extends Component
     public function mount($language_id)
     {
         $this->language_id = $language_id;
+        $this->language = Language::findOrFail($language_id);
     }
 
     public function updating($field)
@@ -126,13 +128,13 @@ class Listings extends Component
             ->when(
                 $this->apartment === true,
                 fn($q) =>
-                $q->where('data->apartment', 'Evet')
+                $q->where('data->apartment', trans('theme/front.yes', [], $this->language->code))
             )
             // otherAnimals: true ise data->otherAnimals = 'Evet'
             ->when(
                 $this->otherAnimals === true,
                 fn($q) =>
-                $q->where('data->otherAnimals', 'Evet')
+                $q->where('data->otherAnimals', trans('theme/front.yes', [], $this->language->code))
             )
             ->latest();
 

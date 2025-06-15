@@ -75,9 +75,9 @@ class Profile extends Component
             'phone' => $this->phone,
         ]);
 
-        session()->flash('success', 'Profiliniz güncellendi.');
+        session()->flash('success', trans("theme/front.update_profile",[],$this->language->code));
         $this->dispatch('swal', [
-            'title' => 'Profiliniz güncellendi',
+            'title' => trans("theme/front.update_profile",[],$this->language->code),
             'confirmButtonText' => 'Tamam',
             'icon' => 'success',
             'iconColor' => 'green',
@@ -115,9 +115,9 @@ class Profile extends Component
         $this->new_password = '';
         $this->new_password_confirmation = '';
 
-        session()->flash('success', 'Şifreniz başarıyla değiştirildi.');
+        session()->flash('success', trans("theme/front.updated_password",[],$this->language->code));
         $this->dispatch('swal', [
-            'title' => 'Şifreniz güncellendi',
+            'title' => trans("theme/front.updated_password",[],$this->language->code),
             'confirmButtonText' => 'Tamam',
             'icon' => 'success',
             'iconColor' => 'green',

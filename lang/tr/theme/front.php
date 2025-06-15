@@ -4,6 +4,8 @@ return [
     'reset' => "Tümünü Sıfırla",
     'search' => "Başlık, açıklama ara…",
     'search2' => "Ara",
+    'location' => "Konum",
+    'listing_no' => "İlan No",
     'all_sizes' => "Tüm Boyutlar",
     'all_cities' => "Tüm Şehirler",
     'all_animals' => "Tüm Hayvanlar",
@@ -29,6 +31,10 @@ return [
     'filter' => "Filterele",
     'login' => 'İlan Vermek İçin Öncelikle <a href="/tr/giris-yap">Giriş Yap</a>malı, Hesabın Yoksa <a href="/tr/kayit-ol">Kayıt Ol</a>malısın!',
     'login2' => 'Giriş Yap',
+    'login_link' => '/tr/giris-yap',
+    'account_link' => '/tr/hesap',
+    'update_profile' => "Profil Bilgileriniz Güncellendi",
+    'updated_password' => "Şifreniz Güncellendi",
     'register' => 'Kayıt Ol',
     'password_again' => 'Şifre (Tekrar)',
     'password' => "Şifre",
@@ -94,6 +100,8 @@ return [
     'message' => 'Mesajınız*',
 
     'message_send' => 'Mesaj Gönder',
+    'owner' => "İlan Sahibi",
+    'any_message' => "Henüz size gelen mesaj yok.",
 
     'articles' => 'Makaleler',
     'blog' => 'Blog',
@@ -104,6 +112,15 @@ return [
     'phone_placeholder' => 'Telefon',
     'subject_placeholder' => 'Konu',
     'message_placeholder' => 'Mesaj',
-    'send' => 'Gönder'
-
+    'send' => 'Gönder',
+    'success_listing' => 'İlanınız iletildi',
+    'success_listing_text' => "İlanınız en kısa sürede kontrol edilecek ve onaylanıp onaylanmadığı hakkında e-posta ile bilgilendirileceksiniz.",
+    'ok' => "Tamam",
+    'send_listing_error' => "İlan gönderme hatası",
+    'error' => "Hata!",
+    'month2' => "Aylık",
+    'year2' => "Yaşında",
+    'error_listing' => "İlanınız gönderilemedi! Lütfen bilgileri doğru girdiğinize ve hesabınıza giriş yapmış olduğunuza emin olun. Sayfayı yenileyip tekrar deneyiniz.",
+    'error_message_send' => '<a href="/tr/giris-yap" style="text-decoration:underline;">Giriş yap</a>madan mesaj gönderemezsiniz!',
+    'messaging' => "Mesajlaşma",
 ];

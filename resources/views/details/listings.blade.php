@@ -14,8 +14,10 @@
     @use('App\Models\Quarter', 'Quarter')
     @use('App\Models\Category', 'Category')
     @use('App\Models\SubCategory', 'SubCategory')
+    @use('App\Models\Language', 'Language')
     @php
         $language_id = $page->language_id;
+        $language = Language::findOrFail($page->language_id);
         $city = City::findOrFail($page->city_id)->name;
         $district = District::findOrFail($page->district_id)->name;
         $neigborhood = Neigborhood::findOrFail($page->neigborhood_id)->name;
@@ -90,25 +92,39 @@
                         <!-- /col-md -->
                         <!-- adoption info  -->
                         <div class="col-lg-4 res-margin mt-5 text-xs-center">
-                            <h4 style="color: black; overflow-wrap: break-word;"><strong>İsmi:</strong> {{ $page->title }}
+                            <h4 style="color: black; overflow-wrap: break-word;">
+                                <strong>{{ trans('theme/front.name', [], $language->code) }}:</strong> {{ $page->title }}
                             </h4>
-                            <p class="mb-4"><strong>Konum:</strong>
+                            <p class="mb-4"><strong>{{ trans('theme/front.location', [], $language->code) }}:</strong>
                                 {{ $city . '/' . $district . '/' . $neigborhood . '/' . $quarter }}</p>
-                            <p class="mb-4"><strong>İlan no:</strong> <a
-                                    href="/tr/{{ $page->listing_no }}">{{ $page->listing_no }}</a></p>
+                            <p class="mb-4"><strong>{{ trans('theme/front.listing_no', [], $language->code) }}:</strong>
+                                <a href="/tr/{{ $page->listing_no }}">{{ $page->listing_no }}</a>
+                            </p>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <ul class="list-unstyled pet-adopt-info">
-                                        <li class="h7">Cinsiyeti: <span>{{ $page->data['gender'] }}</span></li>
-                                        <li class="h7">Türü: <span>{{ $category }}</span></li>
-                                        <li class="h7">Kısır: <span>{{ $page->data['neutered'] }}</span></li>
+                                        <li class="h7">{{ trans('theme/front.gender', [], $language->code) }}:
+                                            <span>{{ $page->data['gender'] }}</span>
+                                        </li>
+                                        <li class="h7">{{ trans('theme/front.animal', [], $language->code) }}:
+                                            <span>{{ $category }}</span>
+                                        </li>
+                                        <li class="h7">{{ trans('theme/front.neutered', [], $language->code) }}:
+                                            <span>{{ $page->data['neutered'] }}</span>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-6">
                                     <ul class="list-unstyled pet-adopt-info">
-                                        <li class="h7">Yaşı: <span>{{ $page->data['age'] }}</span></li>
-                                        <li class="h7">Cinsi: <span>{{ $subCategory }}</span></li>
-                                        <li class="h7">Boyutu: <span>{{ $page->data['size'] }}</span></li>
+                                        <li class="h7">{{ trans('theme/front.age', [], $language->code) }}:
+                                            <span>{{ $page->data['age'] }}</span>
+                                        </li>
+                                        <li class="h7">{{ trans('theme/front.breed', [], $language->code) }}:
+                                            <span>{{ $subCategory }}</span>
+                                        </li>
+                                        <li class="h7">{{ trans('theme/front.size', [], $language->code) }}:
+                                            <span>{{ $page->data['size'] }}</span>
+                                        </li>
                                     </ul>
                                 </div>
                                 <!-- /div-->
@@ -117,7 +133,7 @@
                         <div class="col-lg-3 "
                             style="margin-right: 35px; display: flex; justify-content: center; align-items: center;">
                             <div class="user-card" style="padding: 70px 20px 70px 20px">
-                                <h5 class="mb-4" style="text-align: center;">İlan Sahibi</h5>
+                                <h5 class="mb-4" style="text-align: center;">{{ trans('theme/front.owner', [], $language->code) }}</h5>
                                 <div class="d-flex mb-4 align-items-center justify-content-center">
                                     <div class="me-3">
                                         <img src="/storage/{{ $page->user->profile_photo ?? asset('front/img/default-user.png') }}"
@@ -134,7 +150,7 @@
                                 </div>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#chatModal">
-                                    Mesaj Gönder
+                                    {{ trans('theme/front.message_send', [], $language->code) }}
                                 </button>
 
                                 @php
@@ -155,7 +171,7 @@
                                         <div class="modal-dialog modal-dialog-scrollable">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Mesajlaşma: {{ $page->user->name }}</h5>
+                                                    <h5 class="modal-title">{{ trans('theme/front.messaging', [], $language->code) }}: {{ $page->user->name }}</h5>
                                                     <button type="button" class="btn-close"
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
@@ -174,7 +190,7 @@
                                                             </div>
                                                         </div>
                                                     @empty
-                                                        <p class="text-center text-muted">Henüz mesaj yok.</p>
+                                                        <p class="text-center text-muted">{{ trans('theme/front.any_message', [], $language->code) }}</p>
                                                     @endforelse
                                                 </div>
                                                 @if ($me !== $owner)
@@ -188,7 +204,7 @@
                                                             <input type="hidden" name="recipient_id"
                                                                 value="{{ $owner }}">
                                                             <textarea id="body" type="text" name="body" class="form-control me-2" required>{{ $prefix }}</textarea>
-                                                            <button type="submit" class="btn btn-primary">Gönder</button>
+                                                            <button type="submit" class="btn btn-primary">{{ trans('theme/front.message_send', [], $language->code) }}</button>
                                                         </form>
 
                                                         <script>
@@ -256,13 +272,12 @@
                                         <div class="modal-dialog modal-dialog-scrollable">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">Mesajlaşma: {{ $page->user->name }}</h5>
+                                                    <h5 class="modal-title">{{ trans('theme/front.messaging', [], $language->code) }}: {{ $page->user->name }}</h5>
                                                     <button type="button" class="btn-close"
                                                         data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body" style="max-height:400px; overflow-y:auto;">
-                                                    <a href="/tr/giris-yap" style="text-decoration:underline;">Giriş
-                                                        yap</a>madan mesaj gönderemezsiniz!
+                                                    {{ trans('theme/front.error_message_send', [], $language->code) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -273,14 +288,24 @@
                         </div>
                     </div>
                     <div class="col-md-12 mt-5">
-                        <h3>{{ $page->title }} hakkında</h3>
+                        <h3>
+                            @if ($language->code == 'tr')
+                                {{ $page->title }} Hakkında
+                            @else
+                                About {{ $page->title }}
+                            @endif
+                        </h3>
                         <!-- ul custom-->
                         <ul class="custom list-inline font-weight-bold">
                             @if ($page->data['otherAnimals'] == 'Evet')
                                 <li class="list-inline-item">Diğer hayvanlarla iyi geçinir</li>
+                            @elseif($page->data['otherAnimals'] == 'Yes')
+                                <li class="list-inline-item">Good with other animals</li>
                             @endif
                             @if ($page->data['apartment'] == 'Evet')
                                 <li class="list-inline-item">Apartman dairesinde yaşamaya uygun</li>
+                            @elseif ($page->data['apartment'] == 'Yes')
+                                <li class="list-inline-item">Suitable for apartment living</li>
                             @endif
                         </ul>
                         <p> {{ $page->description }} </p>

@@ -23,6 +23,7 @@ class ListingCreate extends Component
     public $categories;
     public $subCategories;
     public $language_id;
+    public $language;
     public $districts;
     public $neigborhoods;
     public $quarters;
@@ -62,6 +63,7 @@ class ListingCreate extends Component
         $this->subCategories = collect();
         $this->neigborhoods = collect();
         $this->quarters = collect();
+        $this->language = Language::findOrFail($language_id);
     }
 
     // Seçim anında tetiklenecek modifiers ile çalışır
@@ -94,17 +96,16 @@ class ListingCreate extends Component
     }
     public function updatedSelectedUnit($unit)
     {
-        $lang = Language::findOrFail($this->language_id);
         if($unit=="month")
         {
-            if($lang->code=="tr")
+            if($this->language->code=="tr")
                 $this->ageWithUnit = $this->age." Aylık";
             else
                 $this->ageWithUnit = $this->age." Months old";
         }
         else
         {
-            if($lang->code=="tr")
+            if($this->language->code=="tr")
                 $this->ageWithUnit = $this->age." Yaşında";
             else
                 $this->ageWithUnit = $this->age." Years old";
@@ -178,11 +179,11 @@ class ListingCreate extends Component
             ],
         ]);
 
-        session()->flash('success', 'İlanınız iletildi.');
+        session()->flash('success', trans("theme/front.success_listing",[],$this->language->code));
         $this->dispatch('swal', [
-                'title' => 'İlanınız iletildi',
-                'text' => 'En kısa sürede kontrol edilip email ile bilgilendirileceksiniz.',
-                'confirmButtonText' => 'Tamam',
+                'title' => trans("theme/front.success_listing",[],$this->language->code),
+                'text' => trans("theme/front.success_listing_text",[],$this->language->code),
+                'confirmButtonText' => trans("theme/front.ok",[],$this->language->code),
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
@@ -206,11 +207,11 @@ class ListingCreate extends Component
         ]);
     }catch(\Exception $e)
     {
-        \Log::error('İlan gönderme hatası: ' . $e->getMessage());
+        \Log::error(trans("theme/front.send_listing_error",[],$this->language->code) . $e->getMessage());
         $this->dispatch('swal', [
-                'title' => 'Hata!',
-                'text' => 'İlanınız gönderilemedi. Lütfen sayfayı yenileyip tekrar deneyiniz.',
-                'confirmButtonText' => 'Tamam',
+                'title' => trans("theme/front.error",[],$this->language->code),
+                'text' => trans("theme/front.error_listing",[],$this->language->code),
+                'confirmButtonText' => trans("theme/front.ok",[],$this->language->code),
                 'icon' => 'error',
                 'iconColor' => 'red',
             ]);

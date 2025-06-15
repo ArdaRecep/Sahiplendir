@@ -28,12 +28,12 @@
             @if (Auth::guard('siteuser')->check())
                 <div class="flex items-center space-x-4" style="margin-left: 5px">
                     <a
-                        href="/tr/hesap"><span><strong>{{ Auth::guard('siteuser')->user()->username }}</strong></span></a>
+                        href="{{ trans("theme/front.account_link",[],$language->code) }}"><span><strong>{{ Auth::guard('siteuser')->user()->username }}</strong></span></a>
                     @livewire('logout')
                 </div>
                 <a href="/messages" style="margin-left: 15px;"><i class="far fa-bell" style="color: black;"></i></a>
             @else
-                <a href="/tr/giris-yap" class="text-sm text-blue-600 hover:underline" style="margin-left: 5px">
+                <a href="{{ trans("theme/front.login_link",[],$language->code) }}" class="text-sm text-blue-600 hover:underline" style="margin-left: 5px">
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
             @endif

@@ -133,8 +133,8 @@
                                     <div class="col-6">
                                         <select wire:model.live="age_unit" class="form-control">
                                             <option value="">{{ trans('theme/front.unit', [], $language->code) }}</option>
-                                            <option value="{{ trans('theme/front.month', [], $language->code) }}">{{ trans('theme/front.month', [], $language->code) }}</option>
-                                            <option value="{{ trans('theme/front.year', [], $language->code) }}">{{ trans('theme/front.year', [], $language->code) }}</option>
+                                            <option value="{{ trans('theme/front.month2', [], $language->code) }}">{{ trans('theme/front.month', [], $language->code) }}</option>
+                                            <option value="{{ trans('theme/front.year2', [], $language->code) }}">{{ trans('theme/front.year', [], $language->code) }}</option>
                                         </select>
                                     </div>
                                 </div>
