@@ -42,5 +42,11 @@ class Post extends Model
     {
         return $this->belongsTo(Language::class);
     }
+    protected static function booted()
+    {
+        static::creating(function ($post) {
+                $post->order = Post::max('order') + 1;
+        });
+    }
 
 }

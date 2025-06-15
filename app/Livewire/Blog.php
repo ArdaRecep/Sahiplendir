@@ -24,23 +24,24 @@ class Blog extends Component
 
     public function render()
     {
-        $query = Post::where('language_id', $this->language_id)->latest();
+        $query = Post::where('language_id', $this->language_id)->orderBy('order', 'asc');
         $language = Language::findOrFail($this->language_id);
         \Carbon\Carbon::setLocale($language->code);
 
         if ($this->search) {
-            $query
-                ->where('title', 'like', '%' . $this->search . '%')
-                ->orWhere('description', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%');
+            });
         }
 
         $categories = PostCategory::where('language_id', $this->language_id)
             ->whereNotNull('published_at')
             ->withCount([
-                    'posts' => function ($query) {
-                        $query->whereNotNull('published_at');
-                    }
-                ])
+                'posts' => function ($query) {
+                    $query->whereNotNull('published_at');
+                }
+            ])
             ->latest()
             ->get();
 

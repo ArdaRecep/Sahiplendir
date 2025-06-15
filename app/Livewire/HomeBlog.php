@@ -20,16 +20,16 @@ class HomeBlog extends Component
     {
 
         $posts = Post::with('postCategories')
-        ->where('language_id', $this->language_id)
-        ->whereNotNull('published_at')
-        ->latest()
-        ->take(3)
-        ->get();
+            ->where('language_id', $this->language_id)
+            ->whereNotNull('published_at')
+            ->orderBy('order', 'asc')
+            ->take(3)
+            ->get();
 
         $language = Language::findOrFail($this->language_id);
         \Carbon\Carbon::setLocale($language->code);
 
-        return view('livewire.home-blog',[
+        return view('livewire.home-blog', [
             'language' => $language,
             'posts' => $posts
         ]);

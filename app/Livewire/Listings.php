@@ -88,6 +88,7 @@ class Listings extends Component
                 $this->search,
                 fn($q) =>
                 $q->where('title', 'like', "%{$this->search}%")
+                ->orWhere('description', 'like', "%{$this->search}%")
             )
             ->when(
                 $this->category_id,

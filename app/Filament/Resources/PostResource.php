@@ -81,6 +81,8 @@ class PostResource extends Resource
                     ->width(150)
                     ->extraImgAttributes(['style' => 'object-fit: contain;'])
             ])
+            ->reorderable('order')
+            ->defaultSort('order',"asc")
             ->filters([
                 SelectFilter::make('language_id')
                 ->label("Dil") // Filtre etiketi

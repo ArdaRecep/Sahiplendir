@@ -25,8 +25,8 @@
             <div class="row">
                 <!-- Post Content Column -->
                 <div class="col-lg-8 col-xl-9 card blog-card">
-                    <div class="card-body">
-                        <h3 class="card-title">{{ $page->title ?? '' }}</h3>
+                    <div class="card-body" style="padding: 0;">
+                        <h1 style="color: black;">{{ $page->title ?? '' }}</h1>
                         <!-- Post info-->
                         <div class="post-info border-irregular2 text-muted">
                             {{ $page->published_at->translatedFormat('d F Y') }}

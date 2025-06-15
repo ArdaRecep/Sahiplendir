@@ -31,12 +31,17 @@ class BlogDetail extends Component
 
         $categories = PostCategory::where('language_id', $this->language_id)
             ->whereNotNull('published_at')
-            ->withCount(['posts' => function ($query) {
-                $query->whereNotNull('published_at');
-            }])
+            ->withCount([
+                'posts' => function ($query) {
+                    $query->whereNotNull('published_at');
+                }
+            ])
             ->latest()
             ->get();
-        $query = Post::where('language_id', $this->language_id)->where('id', '!=', $this->post_id)->whereNotNull('published_at')->latest();
+        $query = Post::where('language_id', $this->language_id)
+            ->where('id', '!=', $this->post_id)
+            ->whereNotNull('published_at')
+            ->orderBy('order', 'asc');
 
 
         if ($this->search) {
