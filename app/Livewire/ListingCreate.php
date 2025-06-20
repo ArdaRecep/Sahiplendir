@@ -139,7 +139,7 @@ class ListingCreate extends Component
             'selectedNeigborhood' => 'required|exists:neigborhoods,id',
             'selectedQuarter' => 'required|exists:quarters,id',
             'selectedSubCategory' => 'required|exists:sub_categories,id',
-            'photos.*' => 'required|image|max:2048',
+            'photos.*' => 'required|image',
             'age' => 'required|int|max:255',
             'selectedUnit' => 'required|string|max:255',
             'selectedGender' => 'required|string|max:255',

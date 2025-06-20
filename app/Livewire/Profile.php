@@ -3,12 +3,14 @@
 namespace App\Livewire;
 
 use App;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Language;
+use App\Models\Listing;
 
 class Profile extends Component
 {
@@ -75,9 +77,9 @@ class Profile extends Component
             'phone' => $this->phone,
         ]);
 
-        session()->flash('success', trans("theme/front.update_profile",[],$this->language->code));
+        session()->flash('success', trans("theme/front.update_profile", [], $this->language->code));
         $this->dispatch('swal', [
-            'title' => trans("theme/front.update_profile",[],$this->language->code),
+            'title' => trans("theme/front.update_profile", [], $this->language->code),
             'confirmButtonText' => 'Tamam',
             'icon' => 'success',
             'iconColor' => 'green',
@@ -102,7 +104,7 @@ class Profile extends Component
 
         // Eski şifre kontrolü
         if (!Hash::check($this->old_password, $user->password)) {
-            $this->addError('old_password', trans("theme/front.wrong_password",[],$this->language->code));
+            $this->addError('old_password', trans("theme/front.wrong_password", [], $this->language->code));
             return;
         }
 
@@ -115,12 +117,44 @@ class Profile extends Component
         $this->new_password = '';
         $this->new_password_confirmation = '';
 
-        session()->flash('success', trans("theme/front.updated_password",[],$this->language->code));
+        session()->flash('success', trans("theme/front.updated_password", [], $this->language->code));
         $this->dispatch('swal', [
-            'title' => trans("theme/front.updated_password",[],$this->language->code),
+            'title' => trans("theme/front.updated_password", [], $this->language->code),
             'confirmButtonText' => 'Tamam',
             'icon' => 'success',
             'iconColor' => 'green',
+        ]);
+    }
+
+    #[On('deleteListing')]
+    public function deleteListing(int $id): void
+    {
+        $listing = Listing::findOrFail($id);
+        abort_unless($listing->user_id === Auth::guard('siteuser')->id(), 403);
+        $listing->delete();
+
+        $this->dispatch('swal', [
+            'title' => 'Silindi!',
+            'icon' => 'success',
+            'text' => 'İlan başarıyla silindi.',
+            'confirmButtonText' => 'Tamam',
+        ]);
+    }
+
+
+    #[On('askDelete')]
+    public function askDelete($id)
+    {
+        $listing = Listing::findOrFail($id);
+        $this->dispatch('swal_delete', [
+            'id' => $id,
+            'title' => "Silme İşlemi",
+            'text' => $listing->title . ' Adlı İlanı Silmek İstediğine Emin Misin',
+            'icon' => 'warning',
+            'confirmButtonText' => 'Sil',
+            'cancelButtonText' => 'Vazgeç',
+            'confirmButtonColor' => '#d33',
+            'cancelButtonColor' => '#3085d6',
         ]);
     }
 

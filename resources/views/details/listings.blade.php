@@ -141,7 +141,7 @@
                                             style="width:60px; height:60px; object-fit:fill;">
                                     </div>
                                     <div>
-                                        <strong style="color: black" class="mb-0">{{ $page->user->name }}</strong><br>
+                                        <strong style="color: black" class="mb-0">{{ $page->user->name }} {{ $page->user->surname }}</strong><br>
                                         <a href="tel:{{ $page->user->phone }}"><small
                                                 class="text-muted">{{ $page->user->phone }}</small></a>
                                         <a href="mailto:{{ $page->user->email }}"><small

@@ -66,8 +66,9 @@ class Register extends Component
         ]);
 
         Auth::login($user);
+        $redirectPath = $this->language->code == 'tr' ? '/tr/giris-yap' : '/en/login';
 
-        return redirect()->intended('/');
+        return redirect($redirectPath);
     }
 
     public function render()

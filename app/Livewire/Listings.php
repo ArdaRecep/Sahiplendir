@@ -136,8 +136,7 @@ class Listings extends Component
                 $this->otherAnimals === true,
                 fn($q) =>
                 $q->where('data->otherAnimals', trans('theme/front.yes', [], $this->language->code))
-            )
-            ->latest();
+            );
 
         $listings = $query->paginate(6);
 
