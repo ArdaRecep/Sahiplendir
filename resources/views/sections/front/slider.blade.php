@@ -5,7 +5,7 @@
 <div class="swiper mySwiper">
   <div class="swiper-wrapper">
     @foreach($section->data['slider'] as $item)
-      <div class=" swiper-slide ls-l  header-wrapper" style="display: flex; align-items: center; background-image:url('/storage/{{ $item['image'] }}')" data-ls="duration:4000; transition2d:7; kenburnszoom:out; kenburnsrotate:-5; kenburnsscale:1.2;">
+      <div class=" swiper-slide ls-l  header-wrapper" style="display: flex; align-items: center; background-image:url('/public/storage/{{ $item['image'] }}')" data-ls="duration:4000; transition2d:7; kenburnszoom:out; kenburnsrotate:-5; kenburnsscale:1.2;">
         <div class="header-text cat-elements">
           <h2>{{ $item['title'] }}</h2>
           <div class="d-none d-sm-block">

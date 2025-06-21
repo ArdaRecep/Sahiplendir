@@ -45,7 +45,7 @@
                 @forelse ($posts->take(3) as $related_post)
                     <div class="post-thumb">
                         <a href="{{ '/' . $language->code . '/' . $related_post->slug }}">
-                            <img class="img-fluid" src="/storage/{{ $related_post->image }}"
+                            <img class="img-fluid" src="/public/storage/{{ $related_post->image }}"
                                 alt="{{ $related_post->title ?? '' }}">
                         </a>
                     </div>

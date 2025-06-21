@@ -33,7 +33,7 @@
                         </div>
                         <a href="/{{ $language->code . '/' . $listing['listing_no'] }}">
                             <!-- image -->
-                            <img class="card-img-top img-fluid" src="/storage/{{ $listing->photos[0] }}" alt="animal"
+                            <img class="card-img-top img-fluid" src="/public/storage/{{ $listing->photos[0] }}" alt="animal"
                                 style="height: 300px; width: 340px;">
                         </a>
                         <div style="padding-top: 10px!important;">

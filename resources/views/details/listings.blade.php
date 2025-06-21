@@ -80,8 +80,8 @@
                                 @foreach ($page->photos as $photo)
                                     <div class="col-md-12" style="display: flex;justify-content: center;">
                                         <!-- image -->
-                                        <a href="/storage/{{ $photo }}" title="{{ $page->title }}">
-                                            <img src="/storage/{{ $photo }}" style="height: 410px; width: 410px;"
+                                        <a href="/public/storage/{{ $photo }}" title="{{ $page->title }}">
+                                            <img src="/public/storage/{{ $photo }}" style="height: 410px; width: 410px;"
                                                 class="border-irregular1 img-fluid hover-opacity" alt="{{ $page->title }}">
                                         </a>
                                     </div>
@@ -136,7 +136,7 @@
                                 <h5 class="mb-4" style="text-align: center;">{{ trans('theme/front.owner', [], $language->code) }}</h5>
                                 <div class="d-flex mb-4 align-items-center justify-content-center">
                                     <div class="me-3">
-                                        <img src="/storage/{{ $page->user->profile_photo ?? asset('front/img/default-user.png') }}"
+                                        <img src="/public/storage/{{ $page->user->profile_photo ?? asset('front/img/default-user.png') }}"
                                             alt="{{ $page->user->name }}" class="rounded-circle"
                                             style="width:60px; height:60px; object-fit:fill;">
                                     </div>

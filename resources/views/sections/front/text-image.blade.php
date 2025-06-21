@@ -38,7 +38,7 @@
                 <div class="col-lg-6">
                     {{-- Buraya .sticky-image sınıfını ekliyoruz --}}
                     <div class="sticky-image">
-                        <img src="{{ url('storage/'.$section->data["image"] ) }}"
+                        <img src="{{ url('/public/storage/'.$section->data["image"] ) }}"
                              alt="animals"
                              class="img-fluid border-irregular1"
                              data-aos="zoom-in">

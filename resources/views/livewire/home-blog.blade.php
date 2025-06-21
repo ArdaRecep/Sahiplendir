@@ -5,7 +5,7 @@
             <a style="text-decoration-line: none" href="{{ '/' . $language->code . '/' . $post->slug }}">
                 <div class="blog-image">
                     <img class="img-fluid border-irregular1 aos-init aos-animate"
-                        style="height: 240px!important;width: 360px !important;" src="/storage/{{ $post->image }}"
+                        style="height: 240px!important;width: 360px !important;" src="/public/storage/{{ $post->image }}"
                         alt="{{ $post->title ?? 'blog-img-alt' }}">
 
                 </div>

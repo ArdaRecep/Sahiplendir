@@ -5,7 +5,7 @@
                 <div class="serviceBox">
                     <div class="thumbnail text-center">
                         <!-- Image -->
-                        <img src="/storage/{{ $listing->photos[0] }}" class="border-irregular1 img-fluid" style="width: 286px; height: 317px;" alt="">
+                        <img src="/public/storage/{{ $listing->photos[0] }}" class="border-irregular1 img-fluid" style="width: 286px; height: 317px;" alt="">
                         <!-- Name -->
                         <div class="caption-adoption">
                             <h6 class="adoption-header" style="color: black!important;">{{ Str::limit($listing['title'], 15) }}</h6>

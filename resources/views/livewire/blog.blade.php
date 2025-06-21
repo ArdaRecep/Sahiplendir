@@ -25,7 +25,7 @@
                         </div>
                         <a href="{{ '/' . $language->code . '/' . $post->slug }}">
                             <!-- image -->
-                            <img class="card-img-top img-fluid" src="/storage/{{ $post->image }}" alt="" style="height: 240px!important;width: 360px !important;">
+                            <img class="card-img-top img-fluid" src="/public/storage/{{ $post->image }}" alt="" style="height: 240px!important;width: 360px !important;">
                         </a>
                         @if (isset($post->postCategories[0]))
                             <div style="padding-top: 5px!important;">

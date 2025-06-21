@@ -8,7 +8,7 @@
           <div class="col-lg-8 row" style="margin-top: 50px !important;">
             <div style="width: 270px; display: flex; justify-content: center;">
              <a class="navbar-brand" href="/{{ $language->code }}" style="display: flex;align-items: center;">
-                <img src="{{ $logo }}" style="width: 200px; margin-right: 92px;">
+                <img src="/public{{ $logo }}" style="width: 200px; margin-right: 92px;">
             </a>
             </div>
              <p class="col-md-8 text-center">{!! $footer_text !!}</p>

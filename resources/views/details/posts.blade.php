@@ -33,7 +33,7 @@
                         </div>
                         <hr>
                         <!-- Preview Image -->
-                        <img src="/storage/{{ $page->image }}" alt="" style="height: 500px;width: 878px;">
+                        <img src="/public/storage/{{ $page->image }}" alt="" style="height: 500px;width: 878px;">
                         @if (isset($page->postCategories[0]))
                             <div style="padding-top: 10px!important;">
                                 <a style="text-decoration-line: none;"

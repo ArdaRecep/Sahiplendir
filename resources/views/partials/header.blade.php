@@ -8,7 +8,7 @@
         <div class="container">
             <!-- logo -->
             <a class="navbar-brand" href="/{{ $language->code }}">
-                <img src="{{ $footer_logo }}" style="width: 240px;">
+                <img src="/public{{ $footer_logo }}" style="width: 240px;">
             </a>
             <!-- Navbartoggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"

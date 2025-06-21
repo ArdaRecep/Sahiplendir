@@ -59,7 +59,7 @@
                                         style="width: 450px;">
                                         <div class="d-flex align-items-center justify-content-center">
                                             @if ($profile_photo)
-                                                <img src="{{ Storage::url($profile_photo) }}" alt="Profil Fotoğrafı"
+                                                <img src="/public{{ Storage::url($profile_photo) }}" alt="Profil Fotoğrafı"
                                                     class="w-16 h-16 rounded-full mr-4"
                                                     style="width:128px;height:128px;">
                                             @endif
@@ -191,7 +191,7 @@
                                             {{-- Örneğin listing modelinizde image alanı varsa --}}
                                             @if (isset($listing->photos[0]))
                                                 <img class="border-irregular1 img-fluid"
-                                                    src="{{ Storage::url($listing->photos[0]) }}"
+                                                    src="/public{{ Storage::url($listing->photos[0]) }}"
                                                     alt="{{ $listing->title }}" style="height: 275px;width: 300px;">
                                             @endif
                                         </div>
