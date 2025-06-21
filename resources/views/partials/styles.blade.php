@@ -1,4 +1,4 @@
-<link rel="icon" type="image/png" sizes="16x16" href="public/{{ $fav_icon ?? '' }}">
+<link rel="icon" type="image/png" sizes="16x16" href="public{{ $fav_icon ?? '' }}">
 
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7CQuicksand:400,500,700&display=swap"
     rel="stylesheet">
