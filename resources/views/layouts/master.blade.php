@@ -9,6 +9,7 @@
 
 
     @include('partials.styles')
+    @livewireStyles
 </head>
 
 <body>
@@ -27,6 +28,7 @@
 
         @stack('scripts')
     </div>
+    @livewireScripts
 </body>
 
 </html>
